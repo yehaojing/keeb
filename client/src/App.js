@@ -38,7 +38,7 @@ export default function App() {
     <>
 
     <Container maxWidth="sm">
-    <Typography variant="h3" style={classes.header}>Keyboard List</Typography>
+    <Typography variant="h3" style={classes.header}>Keeb</Typography>
       <Box sx={{ my: 4 }}>
         {keyboards.map((keyboard) => {
           return (
