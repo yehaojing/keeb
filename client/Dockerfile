@@ -1,10 +1,13 @@
-# The first FROM is now a stage called build-stage
-FROM node:16 AS test-stage
+FROM node:16
+
 WORKDIR /usr/src/app
 
-COPY . .
+COPY package.json package-lock.json* ./
 
-RUN npm ci --force
+RUN npm ci --force && npm cache clean --force
+
+COPY ./src ./src
+COPY ./public ./public
 
 RUN REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL npm run build
 
