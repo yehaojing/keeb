@@ -1,6 +1,6 @@
 services:
   client:
-    image: keyboard-list-client
+    image: keeb-client-prod
     build:
       context: ./client/
       dockerfile: Dockerfile
@@ -10,10 +10,10 @@ services:
       - REACT_APP_BACKEND_URL=keyboard/
     ports:
       - 3000:3000
-    container_name: keyboard-list-client
+    container_name: keeb-client-prod
 
   server:
-    image: keyboard-list-server
+    image: keeb-server-prod
     build:
       context: ./server/
       dockerfile: Dockerfile
@@ -21,7 +21,7 @@ services:
       - ./server/:/usr/src/app
     ports:
       - 3001:80
-    container_name: keyboard-list-server
+    container_name: keeb-server-prod
 
   nginx:
     image: nginx:1.20.1
@@ -29,6 +29,6 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 8080:80
-    container_name: reverse-proxy
+    container_name: keeb-reverse-proxy-prod
     depends_on:
       - client
