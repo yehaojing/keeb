@@ -1,7 +1,7 @@
 import axios from '../utils/apiClient'
 
 const getAll = () => {
-  const request = axios.get();
+  const request = axios.get("/");
   return request.then((response) => response.data);
 };
 
