@@ -30,14 +30,8 @@ def get_session():
     finally:
         session.close()
 
-
-@app.get("/")
-def root():
-    return "keyboard"
-
-
 @app.post(
-    "/keyboard",
+    "/",
     response_model=schemas.Keyboard,
     status_code=status.HTTP_201_CREATED
 )
@@ -61,7 +55,7 @@ def create_keyboard(
     return keyboard_db
 
 
-@app.get("/keyboard/{id}", response_model=schemas.Keyboard)
+@app.get("/{id}", response_model=schemas.Keyboard)
 def read_keyboard(id: int):
 
     session = SessionLocal()
@@ -77,7 +71,7 @@ def read_keyboard(id: int):
     return keyboard
 
 
-@app.put("/keyboard/{id}", response_model=schemas.Keyboard)
+@app.put("/{id}", response_model=schemas.Keyboard)
 def update_keyboard(id: int, name: str):
 
     session = SessionLocal()
@@ -98,7 +92,7 @@ def update_keyboard(id: int, name: str):
     return keyboard
 
 
-@app.delete("/keyboard/{id}")
+@app.delete("/{id}")
 def delete_keyboard(id: int):
 
     session = SessionLocal()
@@ -117,7 +111,7 @@ def delete_keyboard(id: int):
     return f"keyboard with id {id} deleted"
 
 
-@app.get("/keyboard", response_model=List[schemas.Keyboard])
+@app.get("/", response_model=List[schemas.Keyboard])
 def read_keyboard_list():
 
     session = SessionLocal()
