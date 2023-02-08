@@ -16,10 +16,10 @@ const NavBar = () => {
 
                     <Button color="inherit" component={Link} to="/">
                         <Typography variant="h5">
-                            User
+                            Home
                         </Typography>
                     </Button>
-                    <Button color="inherit" component={Link} to="/">
+                    <Button color="inherit" component={Link} to="/about">
                         <Typography variant="h5">
                             About
                         </Typography>
