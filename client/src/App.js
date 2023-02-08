@@ -5,12 +5,9 @@ import KeyboardCard from "./components/KeyboardCard";
 
 import keyboardService from "./services/keyboard";
 import KeyboardForm from "./components/KeyboardForm";
-import { Typography } from "@mui/material";
-
-import useStyles from "./components/style";
+import NavBar from "./components/NavBar";
 
 export default function App() {
-  const classes = useStyles();
   const [keyboards, setKeyboards] = useState([]);
 
   const hook = () => {
@@ -36,23 +33,21 @@ export default function App() {
 
   return (
     <>
-
-    <Container maxWidth="sm">
-    <Typography variant="h3" style={classes.header}>Keeb</Typography>
-      <Box sx={{ my: 4 }}>
-        {keyboards.map((keyboard) => {
-          return (
-            <KeyboardCard
-              key={keyboard.id}
-              keyboard={keyboard}
-              handleDelete={deleteHandler(keyboard.id)}
-            />
-          );
-        })}
-        <KeyboardForm handlePost={postHandler} />
-      </Box>
-    </Container>
+      <NavBar />
+      <Container maxWidth="sm">
+        <Box sx={{ my: 4 }}>
+          {keyboards.map((keyboard) => {
+            return (
+              <KeyboardCard
+                key={keyboard.id}
+                keyboard={keyboard}
+                handleDelete={deleteHandler(keyboard.id)}
+              />
+            );
+          })}
+          <KeyboardForm handlePost={postHandler} />
+        </Box>
+      </Container>
     </>
-
   );
 }

@@ -6,7 +6,7 @@ const getAll = () => {
 };
 
 const postNewKeyboard = (newKeyboard) => {
-  const request = axios.post(newKeyboard);
+  const request = axios.post("/", newKeyboard);
   return request.then((response) => response.data);
 };
 

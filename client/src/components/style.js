@@ -1,10 +1,13 @@
 const useStyles = () => {
   return {
     header: {
-      borderRadius: 20,
       paddingTop: 10,
-      textDecoration: "underline",
-      color: "rgba(136, 143, 199, 1)"
+      paddingLeft: 5,
+      borderWidth: 2,
+      borderRadius: 20,
+      position: 'static',
+      color: "rgba(136, 143, 199, 1)",
+      background: "rgba(136, 143, 199, 0.1)"
     },
     root: {
       background: "rgba(136, 143, 199, 0.1)",
