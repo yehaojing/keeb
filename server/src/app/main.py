@@ -1,10 +1,11 @@
 from typing import List
 from fastapi import FastAPI, status, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from database import Base, engine, SessionLocal
 from sqlalchemy.orm import Session
-import models
-import schemas
+
+from src.app.database import Base, engine, SessionLocal
+import src.app.models as models
+import src.app.schemas as schemas
 
 Base.metadata.create_all(engine)
 

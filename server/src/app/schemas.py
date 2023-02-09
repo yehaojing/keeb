@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 
-
 class KeyboardCreate(BaseModel):
     name: str
     switches: str

@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from database import Base
-
+from src.app.database import Base
 
 class Keyboard(Base):
     __tablename__ = 'keyboard'
