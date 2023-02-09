@@ -21,11 +21,11 @@ def get_session():
     status_code=status.HTTP_201_CREATED
 )
 def create_keyboard(
-    keyboard: schemas.KeyboardCreate,
+    keyboard: schemas.PostCreate,
     session: Session = Depends(get_session)
 ):
 
-    keyboard_db = models.Keyboard(
+    keyboard_db = models.Post(
         name=keyboard.name,
         switches=keyboard.switches,
         stabilisers=keyboard.stabilisers,
@@ -40,7 +40,10 @@ def create_keyboard(
     return keyboard_db
 
 
-@router.get("/{id}", response_model=schemas.Keyboard)
+@router.get(
+    "/{id}", 
+    response_model=schemas.Keyboard
+)
 def read_keyboard(id: int):
 
     session = SessionLocal()
@@ -56,7 +59,10 @@ def read_keyboard(id: int):
     return keyboard
 
 
-@router.put("/{id}", response_model=schemas.Keyboard)
+@router.put(
+    "/{id}", 
+    response_model=schemas.Keyboard
+)
 def update_keyboard(id: int, name: str):
 
     session = SessionLocal()
@@ -77,7 +83,9 @@ def update_keyboard(id: int, name: str):
     return keyboard
 
 
-@router.delete("/{id}")
+@router.delete(
+    "/{id}"
+)
 def delete_keyboard(id: int):
 
     session = SessionLocal()
@@ -96,7 +104,10 @@ def delete_keyboard(id: int):
     return f"keyboard with id {id} deleted"
 
 
-@router.get("/", response_model=List[schemas.Keyboard])
+@router.get(
+    "/",
+    response_model=List[schemas.Keyboard]
+)
 def read_keyboard_list():
 
     session = SessionLocal()
