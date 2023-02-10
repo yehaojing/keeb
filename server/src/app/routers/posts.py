@@ -1,5 +1,6 @@
 from typing import List
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
 from src.app.database import SessionLocal
 import src.app.models as models
@@ -14,6 +15,26 @@ def get_session():
         yield session
     finally:
         session.close()
+
+
+@router.post(
+    "/"
+)
+def create_post(
+    post: schemas.PostCreate,
+    session: Session = Depends(get_session)
+):
+    post_db = models.Post(
+        title=post.title,
+        content=post.content,
+        author_id=post.author_id
+    )
+
+    session.add(post_db)
+    session.commit()
+    session.refresh(post_db)
+
+    return post_db
 
 
 @router.get(

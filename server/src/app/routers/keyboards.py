@@ -8,12 +8,14 @@ import src.app.schemas as schemas
 
 router = APIRouter()
 
+
 def get_session():
     session = SessionLocal()
     try:
         yield session
     finally:
         session.close()
+
 
 @router.post(
     "/",
