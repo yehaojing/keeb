@@ -1,6 +1,5 @@
 from typing import List
-from fastapi import APIRouter, status, HTTPException, Depends
-from sqlalchemy.orm import Session
+from fastapi import APIRouter
 
 from src.app.database import SessionLocal
 import src.app.models as models
@@ -8,12 +7,14 @@ import src.app.schemas as schemas
 
 router = APIRouter()
 
+
 def get_session():
     session = SessionLocal()
     try:
         yield session
     finally:
         session.close()
+
 
 @router.get(
     "/",
@@ -24,8 +25,9 @@ def read_post_list():
     session = SessionLocal()
     resp = (
         session
-            .query(models.Post, models.Comment).join(models.Comment, isouter=True)
-            .all()
+        .query(models.Post, models.Comment)
+        .join(models.Comment, isouter=True)
+        .all()
     )
     session.close()
 

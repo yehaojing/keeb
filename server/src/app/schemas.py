@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
+
+
 class KeyboardCreate(BaseModel):
     name: str
     switches: str
@@ -7,10 +9,12 @@ class KeyboardCreate(BaseModel):
     keycaps: str
     manufacturer: str
 
+
 class PostCreate(BaseModel):
     title: str
     content: str
     author_id: int
+
 
 class Keyboard(BaseModel):
     id: int
@@ -23,12 +27,14 @@ class Keyboard(BaseModel):
     class Config:
         orm_mode = True
 
+
 class Comment(BaseModel):
     id: int
     content: str
-    post_id: int
+
     class Config:
         orm_mode = True
+
 
 class Post(BaseModel):
     id: int
@@ -36,5 +42,6 @@ class Post(BaseModel):
     content: str
     author_id: int
     comments: list[Comment] = []
+
     class Config:
         orm_mode = True
