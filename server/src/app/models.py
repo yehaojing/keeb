@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from src.app.database import Base
 
 class Keyboard(Base):
@@ -16,3 +17,10 @@ class Post(Base):
     title = Column(String(50))
     content = Column(String(1024))
     author_id = Column(String(50))
+    comments = relationship("Comment", lazy='subquery')
+
+class Comment(Base):
+    __tablename__ = "comments"
+    id = Column(Integer, primary_key=True)
+    content = Column(String(256))
+    post_id = Column(Integer, ForeignKey("posts.id"))
