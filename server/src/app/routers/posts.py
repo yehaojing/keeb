@@ -55,3 +55,24 @@ def read_post_list():
     post_list = [p for (p, c) in resp]
 
     return post_list
+
+
+@router.post(
+    "/comments",
+    response_model=schemas.Comment,
+)
+def create_comment(
+    comment: schemas.CommentCreate,
+    session: Session = Depends(get_session)
+):
+
+    comment_db = models.Comment(
+        content=comment.content,
+        post_id=comment.post_id
+    )
+
+    session.add(comment_db)
+    session.commit()
+    session.refresh(comment_db)
+
+    return comment_db
