@@ -60,17 +60,18 @@ def read_post_list():
 
 
 @router.post(
-    "/comments",
+    "/{post_id}/comments",
     response_model=schemas.Comment,
 )
 def create_comment(
+    post_id: int,
     comment: schemas.CommentCreate,
     session: Session = Depends(get_session)
 ):
 
     comment_db = models.Comment(
         content=comment.content,
-        post_id=comment.post_id
+        post_id=post_id
     )
 
     session.add(comment_db)

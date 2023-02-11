@@ -39,7 +39,6 @@ class Comment(BaseModel):
 
 class CommentCreate(BaseModel):
     content: str
-    post_id: int
 
 
 class Post(BaseModel):
