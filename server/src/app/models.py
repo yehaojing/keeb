@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from src.app.database import Base
 
@@ -19,6 +19,7 @@ class Post(Base):
     title = Column(String(50))
     content = Column(String(1024))
     author_id = Column(String(50))
+    is_edited = Column(Boolean, default=False)
     comments = relationship("Comment", lazy='subquery')
 
 
@@ -26,4 +27,5 @@ class Comment(Base):
     __tablename__ = "comments"
     id = Column(Integer, primary_key=True)
     content = Column(String(256))
+    is_edited = Column(Boolean, default=False)
     post_id = Column(Integer, ForeignKey("posts.id"))
