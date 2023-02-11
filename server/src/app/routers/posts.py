@@ -2,21 +2,13 @@ from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from src.app.database import SessionLocal
 import src.app.models as models
 import src.app.schemas as schemas
+from src.app.dependencies import get_session
 
 router = APIRouter(
     tags=["posts"]
 )
-
-
-def get_session():
-    session = SessionLocal()
-    try:
-        yield session
-    finally:
-        session.close()
 
 
 @router.post(
@@ -43,9 +35,10 @@ def create_post(
     "/",
     response_model=List[schemas.Post]
 )
-def read_post_list():
+def read_post_list(
+    session: Session = Depends(get_session)
+):
 
-    session = SessionLocal()
     resp = (
         session
         .query(models.Post, models.Comment)

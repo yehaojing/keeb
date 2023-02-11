@@ -22,4 +22,3 @@ app.add_middleware(
 
 app.include_router(keyboards.router, prefix="/keyboard")
 app.include_router(posts.router, prefix="/posts")
-

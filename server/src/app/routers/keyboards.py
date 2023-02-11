@@ -2,21 +2,13 @@ from typing import List
 from fastapi import APIRouter, status, HTTPException, Depends
 from sqlalchemy.orm import Session
 
-from src.app.database import SessionLocal
 import src.app.models as models
 import src.app.schemas as schemas
+from src.app.dependencies import get_session
 
 router = APIRouter(
     tags=["keyboards"]
 )
-
-
-def get_session():
-    session = SessionLocal()
-    try:
-        yield session
-    finally:
-        session.close()
 
 
 @router.post(
@@ -45,12 +37,14 @@ def create_keyboard(
 
 
 @router.get(
-    "/{id}", 
+    "/{id}",
     response_model=schemas.Keyboard
 )
-def read_keyboard(id: int):
+def read_keyboard(
+    id: int,
+    session: Session = Depends(get_session)
+):
 
-    session = SessionLocal()
     keyboard = session.query(models.Keyboard).get(id)
     session.close()
 
@@ -64,12 +58,15 @@ def read_keyboard(id: int):
 
 
 @router.put(
-    "/{id}", 
+    "/{id}",
     response_model=schemas.Keyboard
 )
-def update_keyboard(id: int, name: str):
+def update_keyboard(
+    id: int,
+    name: str,
+    session: Session = Depends(get_session)
+):
 
-    session = SessionLocal()
     keyboard = session.query(models.Keyboard).get(id)
 
     if keyboard:
@@ -90,9 +87,11 @@ def update_keyboard(id: int, name: str):
 @router.delete(
     "/{id}"
 )
-def delete_keyboard(id: int):
+def delete_keyboard(
+    id: int,
+    session: Session = Depends(get_session)
+):
 
-    session = SessionLocal()
     keyboard = session.query(models.Keyboard).get(id)
 
     if keyboard:
@@ -112,9 +111,10 @@ def delete_keyboard(id: int):
     "/",
     response_model=List[schemas.Keyboard]
 )
-def read_keyboard_list():
+def read_keyboard_list(
+    session: Session = Depends(get_session)
+):
 
-    session = SessionLocal()
     keyboard_list = session.query(models.Keyboard).all()
     session.close()
 
