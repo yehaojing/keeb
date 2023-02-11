@@ -6,7 +6,9 @@ from src.app.database import SessionLocal
 import src.app.models as models
 import src.app.schemas as schemas
 
-router = APIRouter()
+router = APIRouter(
+    tags=["posts"]
+)
 
 
 def get_session():
