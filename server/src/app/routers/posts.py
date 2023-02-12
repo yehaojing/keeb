@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 
 import src.app.models as models
@@ -9,6 +9,14 @@ from src.app.dependencies import get_session
 router = APIRouter(
     tags=["posts"]
 )
+
+
+def find_post(
+    post_id: int,
+    session: Session = Depends(get_session)
+):
+    post = session.query(models.Post).get(post_id)
+    return post
 
 
 @router.post(
@@ -29,6 +37,25 @@ def create_post(
     session.refresh(post_db)
 
     return post_db
+
+
+@router.get(
+    "/{post_id}/"
+)
+def get_post(
+    post_id: int,
+    session: Session = Depends(get_session),
+    post=Depends(find_post)
+):
+    session.close()
+
+    if not post:
+        raise HTTPException(
+            status_code=404,
+            detail=f"post with id {post_id} not found"
+        )
+
+    return post
 
 
 @router.get(
