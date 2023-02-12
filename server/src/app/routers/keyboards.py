@@ -11,17 +11,34 @@ router = APIRouter(
 )
 
 
+def find_keyboard(
+    keyboard_id: int,
+    session: Session = Depends(get_session)
+):
+    keyboard = session.query(models.Keyboard).get(keyboard_id)
+
+    if not keyboard:
+        raise HTTPException(
+            status_code=404,
+            detail=f"keyboard with id {keyboard_id} not found"
+        )
+
+    session.close()
+
+    return keyboard
+
+
 @router.post(
     "/",
     response_model=schemas.Keyboard,
     status_code=status.HTTP_201_CREATED
 )
 def create_keyboard(
-    keyboard: schemas.PostCreate,
+    keyboard: schemas.KeyboardCreate,
     session: Session = Depends(get_session)
 ):
 
-    keyboard_db = models.Post(
+    keyboard_db = models.Keyboard(
         name=keyboard.name,
         switches=keyboard.switches,
         stabilisers=keyboard.stabilisers,
@@ -32,79 +49,50 @@ def create_keyboard(
     session.add(keyboard_db)
     session.commit()
     session.refresh(keyboard_db)
+    session.close()
 
     return keyboard_db
 
 
 @router.get(
-    "/{id}",
+    "/{keyboard_id}",
     response_model=schemas.Keyboard
 )
 def read_keyboard(
-    id: int,
-    session: Session = Depends(get_session)
+    keyboard=Depends(find_keyboard)
 ):
-
-    keyboard = session.query(models.Keyboard).get(id)
-    session.close()
-
-    if not keyboard:
-        raise HTTPException(
-            status_code=404,
-            detail=f"keyboard with id {id} not found"
-        )
 
     return keyboard
 
 
 @router.put(
-    "/{id}",
+    "/{keyboard_id}",
     response_model=schemas.Keyboard
 )
 def update_keyboard(
-    id: int,
     name: str,
-    session: Session = Depends(get_session)
+    session: Session = Depends(get_session),
+    keyboard=Depends(find_keyboard)
 ):
-
-    keyboard = session.query(models.Keyboard).get(id)
 
     if keyboard:
         keyboard.name = name
         session.commit()
 
-    session.close()
-
-    if not keyboard:
-        raise HTTPException(
-            status_code=404,
-            detail=f"keyboard with id {id} not found"
-        )
-
     return keyboard
 
 
 @router.delete(
-    "/{id}"
+    "/{keyboard_id}"
 )
 def delete_keyboard(
-    id: int,
-    session: Session = Depends(get_session)
+    session: Session = Depends(get_session),
+    keyboard=Depends(find_keyboard)
 ):
+    session.delete(keyboard)
+    session.commit()
 
-    keyboard = session.query(models.Keyboard).get(id)
-
-    if keyboard:
-        session.delete(keyboard)
-        session.commit()
-        session.close()
-    else:
-        raise HTTPException(
-            status_code=404,
-            detail=f"keyboard with id {id} not found"
-        )
-
-    return f"keyboard with id {id} deleted"
+    return f"keyboard with id {keyboard.id} deleted"
 
 
 @router.get(
@@ -116,6 +104,5 @@ def read_keyboard_list(
 ):
 
     keyboard_list = session.query(models.Keyboard).all()
-    session.close()
 
     return keyboard_list
