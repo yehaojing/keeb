@@ -46,7 +46,13 @@ class Post(BaseModel):
     title: str
     content: str
     author_id: int
+    is_edited: bool
     comments: list[Comment] = []
 
     class Config:
         orm_mode = True
+
+
+class PostPatch(BaseModel):
+    title: str
+    content: str

@@ -1,5 +1,6 @@
 from typing import List
 from fastapi import APIRouter, HTTPException, Depends
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 import src.app.models as models
@@ -45,7 +46,7 @@ def create_post(
 def get_post(
     post_id: int,
     session: Session = Depends(get_session),
-    post=Depends(find_post)
+    post: models.Post = Depends(find_post)
 ):
     session.close()
 
@@ -56,6 +57,25 @@ def get_post(
         )
 
     return post
+
+
+@router.patch(
+    "/{post_id}/",
+    response_model=schemas.Post
+)
+def update_post(
+    post_id: int,
+    post_patch: schemas.PostPatch,
+    session: Session = Depends(get_session),
+):
+    patch_data = post_patch.dict()
+    patch_data["is_edited"] = True
+    session.query(models.Post) \
+        .filter(models.Post.id == post_id) \
+        .update(patch_data)
+    session.commit()
+
+    return find_post(post_id, session)
 
 
 @router.get(
