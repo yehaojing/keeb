@@ -84,3 +84,10 @@ async def read_users_me(
     current_user: schemas.UserInDB = Depends(get_current_active_user)
 ):
     return current_user
+
+
+@router.get("/me/", response_model=schemas.UserInDB)
+async def read_users_me(
+    current_user: schemas.UserInDB = Depends(get_current_active_user)
+):
+    return current_user

@@ -9,6 +9,7 @@ class KeyboardBase(BaseModel):
     stabilisers: str
     keycaps: str
     manufacturer: str
+    owner_id: int
 
 
 class KeyboardCreate(KeyboardBase):
@@ -80,6 +81,7 @@ class UserCreate(User):
 class UserInDB(User):
     id: int
     password_hash: str
+    keyboards: list[Keyboard] = []
 
 
 class Token(BaseModel):

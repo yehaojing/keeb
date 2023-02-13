@@ -11,6 +11,7 @@ class Keyboard(Base):
     stabilisers = Column(String(50))
     keycaps = Column(String(50))
     manufacturer = Column(String(50))
+    owner_id = Column(Integer, ForeignKey("users.id"))
 
 
 class Post(Base):
@@ -39,3 +40,4 @@ class User(Base):
     email = Column(String(320))
     password_hash = Column(String(64))
     disabled = Column(Boolean)
+    keyboards = relationship("Keyboard", lazy='subquery')

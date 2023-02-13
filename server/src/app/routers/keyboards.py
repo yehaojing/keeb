@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 import src.app.models as models
 import src.app.schemas as schemas
-from src.app.dependencies import get_session
+from src.app.dependencies import get_session, get_current_active_user
 # from src.app
 
 router = APIRouter(
@@ -36,7 +36,8 @@ def find_keyboard(
 )
 def create_keyboard(
     keyboard: schemas.KeyboardCreate,
-    session: Session = Depends(get_session)
+    session: Session = Depends(get_session),
+    current_user: schemas.UserInDB = Depends(get_current_active_user)
 ):
 
     keyboard_db = models.Keyboard(
@@ -44,7 +45,8 @@ def create_keyboard(
         switches=keyboard.switches,
         stabilisers=keyboard.stabilisers,
         keycaps=keyboard.keycaps,
-        manufacturer=keyboard.manufacturer
+        manufacturer=keyboard.manufacturer,
+        owner_id=current_user.id
     )
 
     session.add(keyboard_db)
