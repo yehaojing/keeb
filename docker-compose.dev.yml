@@ -18,6 +18,8 @@ services:
     build:
       context: ./server/
       dockerfile: dev.Dockerfile
+    environment:
+      - JWT_SECRET_KEY=751665f91f4b69b4cc2cbc113ac505f1ceabb56fb0a86a48569042dc1e91cd7d
     volumes:
       - ./server/:/usr/src/app
     ports:
