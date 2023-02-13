@@ -65,21 +65,21 @@ def read_keyboard(
     return keyboard
 
 
-@router.put(
+@router.patch(
     "/{keyboard_id}",
     response_model=schemas.Keyboard
 )
 def update_keyboard(
-    name: str,
-    session: Session = Depends(get_session),
-    keyboard=Depends(find_keyboard)
+    keyboard_id: int,
+    keyboard_patch: schemas.KeyboardCreate,
+    session: Session = Depends(get_session)
 ):
+    session.query(models.Keyboard) \
+        .filter(models.Keyboard.id == keyboard_id) \
+        .update(keyboard_patch.dict())
+    session.commit()
 
-    if keyboard:
-        keyboard.name = name
-        session.commit()
-
-    return keyboard
+    return find_keyboard(keyboard_id, session)
 
 
 @router.delete(
