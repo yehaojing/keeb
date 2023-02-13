@@ -37,5 +37,5 @@ class User(Base):
     full_name = Column(String(320))
     username = Column(String(24), unique=True)
     email = Column(String(320))
-    password_hash = Column(String(24))
+    password_hash = Column(String(64))
     disabled = Column(Boolean)
