@@ -56,3 +56,27 @@ class Post(BaseModel):
 class PostPatch(BaseModel):
     title: str
     content: str
+
+
+class User(BaseModel):
+    username: str
+    email: str | None = None
+    full_name: str | None = None
+    disabled: bool | None = False
+
+    class Config:
+        orm_mode = True
+
+
+class UserCreate(User):
+    password: str
+
+
+class UserInDB(User):
+    id: int
+    password_hash: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str

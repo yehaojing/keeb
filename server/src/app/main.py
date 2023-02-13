@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.app.database import Base, engine
-from src.app.routers import keyboards, posts
+from src.app.routers import keyboards, posts, users
 
 Base.metadata.create_all(engine)
 
@@ -20,5 +20,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(users.router, prefix="/users")
 app.include_router(keyboards.router, prefix="/keyboard")
 app.include_router(posts.router, prefix="/posts")

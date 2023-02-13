@@ -29,3 +29,13 @@ class Comment(Base):
     content = Column(String(256))
     is_edited = Column(Boolean, default=False)
     post_id = Column(Integer, ForeignKey("posts.id"))
+
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
+    full_name = Column(String(320))
+    username = Column(String(24), unique=True)
+    email = Column(String(320))
+    password_hash = Column(String(24))
+    disabled = Column(Boolean)
