@@ -2,7 +2,8 @@ from pydantic import BaseModel
 # from typing import Optional
 
 
-class KeyboardCreate(BaseModel):
+# Keybaord
+class KeyboardBase(BaseModel):
     name: str
     switches: str
     stabilisers: str
@@ -10,42 +11,46 @@ class KeyboardCreate(BaseModel):
     manufacturer: str
 
 
-class PostCreate(BaseModel):
-    title: str
-    content: str
-    author_id: int
+class KeyboardCreate(KeyboardBase):
+    pass
 
 
-class Keyboard(BaseModel):
+class Keyboard(KeyboardBase):
     id: int
-    name: str
-    switches: str
-    stabilisers: str
-    keycaps: str
-    manufacturer: str
 
     class Config:
         orm_mode = True
 
 
-class Comment(BaseModel):
-    id: int
+# Comment
+class CommentBase(BaseModel):
     content: str
+
+
+class Comment(CommentBase):
+    id: int
     post_id: int
 
     class Config:
         orm_mode = True
 
 
-class CommentCreate(BaseModel):
-    content: str
+class CommentCreate(CommentBase):
+    pass
 
 
-class Post(BaseModel):
-    id: int
+# Post
+class PostBase(BaseModel):
     title: str
     content: str
+
+
+class PostCreate(PostBase):
     author_id: int
+
+
+class Post(PostCreate):
+    id: int
     is_edited: bool
     comments: list[Comment] = []
 
@@ -53,11 +58,11 @@ class Post(BaseModel):
         orm_mode = True
 
 
-class PostPatch(BaseModel):
-    title: str
-    content: str
+class PostPatch(PostBase):
+    pass
 
 
+# User
 class User(BaseModel):
     username: str
     email: str | None = None
