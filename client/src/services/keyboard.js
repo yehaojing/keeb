@@ -1,18 +1,17 @@
-import axios from "axios";
-const baseUrl = process.env.REACT_APP_BACKEND_URL;
+import axios from '../utils/apiClient'
 
 const getAll = () => {
-  const request = axios.get(baseUrl);
+  const request = axios.get("/");
   return request.then((response) => response.data);
 };
 
 const postNewKeyboard = (newKeyboard) => {
-  const request = axios.post(baseUrl, newKeyboard);
+  const request = axios.post("/", newKeyboard);
   return request.then((response) => response.data);
 };
 
 const deleteKeyboard = (id) => {
-  const deleteRequest = axios.delete(`${baseUrl}/${id}`);
+  const deleteRequest = axios.delete(`/${id}`);
 
   return deleteRequest.then((response) => response.data);
 };
