@@ -6,7 +6,4 @@ COPY ./requirements.txt ./requirements.txt
 
 RUN pip install -r ./requirements.txt
 
-CMD [ \
-    # "cd", "src", "&&", "python", "-m", "alembic", "upgrade", "head", ";" \
-    "python", "-m", "uvicorn", "src.app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload" \
-    ]
+CMD ["sh", "-c", "(cd src && alembic upgrade head) ; uvicorn src.app.main:app --host 0.0.0.0 --port 80 --reload ;"]

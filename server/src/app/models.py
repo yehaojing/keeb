@@ -19,7 +19,7 @@ class Post(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(50))
     content = Column(String(1024))
-    author_id = Column(String(50))
+    author_id = Column(Integer, ForeignKey("users.id"))
     is_edited = Column(Boolean, default=False)
     comments = relationship("Comment", lazy='subquery')
 
@@ -41,3 +41,4 @@ class User(Base):
     password_hash = Column(String(64))
     disabled = Column(Boolean)
     keyboards = relationship("Keyboard", lazy='subquery')
+    posts = relationship("Post", lazy='subquery')

@@ -85,6 +85,7 @@ class UserInDB(User):
     id: int
     password_hash: str
     keyboards: list[Keyboard] = []
+    posts: list[Post] = []
 
 
 class Token(BaseModel):
