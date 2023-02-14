@@ -5,7 +5,6 @@ from sqlalchemy.orm import Session
 import src.app.models as models
 import src.app.schemas as schemas
 from src.app.dependencies import get_session, get_current_active_user
-# from src.app
 
 router = APIRouter(
     tags=["keyboards"]
@@ -24,17 +23,13 @@ def find_keyboard(
             detail=f"keyboard with id {keyboard_id} not found"
         )
 
-    session.close()
-
     return keyboard
 
 
 def is_current_user_keyboard(
-    keyboard_id: int,
-    session: Session = Depends(get_session),
+    keyboard: models.Keyboard = Depends(find_keyboard),
     current_user: schemas.UserInDB = Depends(get_current_active_user)
 ):
-    keyboard = find_keyboard(keyboard_id, session)
     if keyboard.owner_id != current_user.id:
         raise HTTPException(
             status_code=401,
@@ -44,7 +39,7 @@ def is_current_user_keyboard(
             )
         )
 
-    return True
+    return keyboard
 
 
 @router.post(
@@ -115,7 +110,7 @@ def delete_keyboard(
     session.delete(keyboard)
     session.commit()
 
-    return f"keyboard with id {keyboard.id} deleted"
+    return {"detail": f"keyboard with id {keyboard.id} deleted"}
 
 
 @router.get(
