@@ -20,8 +20,9 @@ services:
       dockerfile: dev.Dockerfile
     environment:
       - JWT_SECRET_KEY=751665f91f4b69b4cc2cbc113ac505f1ceabb56fb0a86a48569042dc1e91cd7d
+      - DATABASE_URI=postgresql://user:pw@keeb-database-dev:5432/keeb
     volumes:
-      - ./server/:/usr/src/app
+      - ./server/src/:/usr/src/app/src
     ports:
       - 80:80
     container_name: keeb-server-dev
