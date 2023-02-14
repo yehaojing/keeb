@@ -9,10 +9,13 @@ class KeyboardBase(BaseModel):
     stabilisers: str
     keycaps: str
     manufacturer: str
-    owner_id: int
 
 
 class KeyboardCreate(KeyboardBase):
+    owner_id: int
+
+
+class KeyboardPatch(KeyboardBase):
     pass
 
 

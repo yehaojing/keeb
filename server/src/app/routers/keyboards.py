@@ -29,6 +29,24 @@ def find_keyboard(
     return keyboard
 
 
+def is_current_user_keyboard(
+    keyboard_id: int,
+    session: Session = Depends(get_session),
+    current_user: schemas.UserInDB = Depends(get_current_active_user)
+):
+    keyboard = find_keyboard(keyboard_id, session)
+    if keyboard.owner_id != current_user.id:
+        raise HTTPException(
+            status_code=401,
+            detail=(
+                "Unauthorised operation on keyboard"
+                f" with id '{keyboard.id}'"
+            )
+        )
+
+    return True
+
+
 @router.post(
     "/",
     response_model=schemas.Keyboard,
@@ -70,11 +88,12 @@ def read_keyboard(
 
 @router.patch(
     "/{keyboard_id}",
-    response_model=schemas.Keyboard
+    response_model=schemas.Keyboard,
 )
 def update_keyboard(
     keyboard_id: int,
-    keyboard_patch: schemas.KeyboardCreate,
+    keyboard_patch: schemas.KeyboardPatch,
+    current_user_keyboard=Depends(is_current_user_keyboard),
     session: Session = Depends(get_session)
 ):
     session.query(models.Keyboard) \
@@ -90,7 +109,8 @@ def update_keyboard(
 )
 def delete_keyboard(
     session: Session = Depends(get_session),
-    keyboard=Depends(find_keyboard)
+    keyboard=Depends(find_keyboard),
+    current_user_keyboard=Depends(is_current_user_keyboard),
 ):
     session.delete(keyboard)
     session.commit()
