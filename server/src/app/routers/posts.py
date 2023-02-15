@@ -96,6 +96,20 @@ def update_post(
     return find_post(post_id, session)
 
 
+@router.delete(
+    "/{post_id}/",
+)
+def delete_post(
+    post=Depends(find_post),
+    session: Session = Depends(get_session),
+    current_user_post=Depends(is_current_user_post),
+):
+    session.delete(post)
+    session.commit()
+
+    return {"detail": f"post with id {post.id} deleted"}
+
+
 @router.get(
     "/",
     response_model=List[schemas.Post]
