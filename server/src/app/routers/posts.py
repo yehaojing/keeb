@@ -138,12 +138,14 @@ def read_post_list(
 def create_comment(
     post_id: int,
     comment: schemas.CommentCreate,
-    session: Session = Depends(get_session)
+    session: Session = Depends(get_session),
+    current_user: schemas.UserInDB = Depends(get_current_active_user)
 ):
 
     comment_db = models.Comment(
         content=comment.content,
-        post_id=post_id
+        post_id=post_id,
+        author_id=current_user.id
     )
 
     session.add(comment_db)

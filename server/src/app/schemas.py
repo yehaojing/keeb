@@ -34,6 +34,7 @@ class CommentBase(BaseModel):
 class Comment(CommentBase):
     id: int
     post_id: int
+    author_id: int
 
     class Config:
         orm_mode = True

@@ -30,6 +30,7 @@ class Comment(Base):
     content = Column(String(256))
     is_edited = Column(Boolean, default=False)
     post_id = Column(Integer, ForeignKey("posts.id"))
+    author_id = Column(Integer, ForeignKey("users.id"))
 
 
 class User(Base):
@@ -42,3 +43,4 @@ class User(Base):
     disabled = Column(Boolean)
     keyboards = relationship("Keyboard", lazy='subquery')
     posts = relationship("Post", lazy='subquery')
+    comments = relationship("Comment", lazy='subquery')
