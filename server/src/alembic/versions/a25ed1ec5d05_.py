@@ -1,7 +1,7 @@
 """change posts.author_id type to int, makes it FKEY to users.id
 
 Revision ID: a25ed1ec5d05
-Revises: posts.author_id
+Revises:
 Create Date: 2023-02-15 07:35:46.559138
 
 """
@@ -32,4 +32,4 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_table('account')
+    pass
