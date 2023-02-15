@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 import src.app.models as models
 import src.app.schemas as schemas
-from src.app.dependencies import get_session
+from src.app.dependencies import get_session, get_current_active_user
 
 router = APIRouter(
     tags=["posts"]
@@ -25,12 +25,13 @@ def find_post(
 )
 def create_post(
     post: schemas.PostCreate,
-    session: Session = Depends(get_session)
+    session: Session = Depends(get_session),
+    current_user: schemas.UserInDB = Depends(get_current_active_user)
 ):
     post_db = models.Post(
         title=post.title,
         content=post.content,
-        author_id=post.author_id
+        author_id=current_user.id
     )
 
     session.add(post_db)

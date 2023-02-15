@@ -50,11 +50,12 @@ class PostBase(BaseModel):
 
 
 class PostCreate(PostBase):
-    author_id: int
+    pass
 
 
 class Post(PostCreate):
     id: int
+    author_id: int
     is_edited: bool
     comments: list[Comment] = []
 
