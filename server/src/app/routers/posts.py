@@ -20,6 +20,22 @@ def find_post(
     return post
 
 
+def is_current_user_post(
+    post: models.Keyboard = Depends(find_post),
+    current_user: schemas.UserInDB = Depends(get_current_active_user)
+):
+    if post.author_id != current_user.id:
+        raise HTTPException(
+            status_code=401,
+            detail=(
+                "Unauthorised operation on post"
+                f" with id '{post.id}'"
+            )
+        )
+
+    return post
+
+
 @router.post(
     "/"
 )
@@ -67,6 +83,7 @@ def get_post(
 def update_post(
     post_id: int,
     post_patch: schemas.PostPatch,
+    current_user_post=Depends(is_current_user_post),
     session: Session = Depends(get_session),
 ):
     patch_data = post_patch.dict()
