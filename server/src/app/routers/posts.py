@@ -20,8 +20,16 @@ def find_post(
     return post
 
 
+def find_comment(
+    comment_id: int,
+    session: Session = Depends(get_session)
+):
+    comment = session.query(models.Comment).get(comment_id)
+    return comment
+
+
 def is_current_user_post(
-    post: models.Keyboard = Depends(find_post),
+    post: models.Post = Depends(find_post),
     current_user: schemas.UserInDB = Depends(get_current_active_user)
 ):
     if post.author_id != current_user.id:
@@ -34,6 +42,22 @@ def is_current_user_post(
         )
 
     return post
+
+
+def is_current_user_comment(
+    comment: models.Comment = Depends(find_comment),
+    current_user: schemas.UserInDB = Depends(get_current_active_user)
+):
+    if comment.author_id != current_user.id:
+        raise HTTPException(
+            status_code=401,
+            detail=(
+                "Unauthorised operation on comment"
+                f" with id '{comment.id}'"
+            )
+        )
+
+    return comment
 
 
 @router.post(
@@ -153,3 +177,48 @@ def create_comment(
     session.refresh(comment_db)
 
     return comment_db
+
+
+@router.get(
+    "/{post_id}/comments/{comment_id}",
+    response_model=schemas.Comment,
+)
+def get_comment(
+    comment: models.Comment = Depends(find_comment),
+):
+
+    return comment
+
+
+@router.patch(
+    "/{post_id}/comments/{comment_id}",
+    response_model=schemas.Comment
+)
+def update_comment(
+    comment_id: int,
+    comment_patch: schemas.CommentPatch,
+    current_user_post=Depends(is_current_user_comment),
+    session: Session = Depends(get_session),
+):
+    patch_data = comment_patch.dict()
+    patch_data["is_edited"] = True
+    session.query(models.Comment) \
+        .filter(models.Comment.id == comment_id) \
+        .update(patch_data)
+    session.commit()
+
+    return find_comment(comment_id, session)
+
+
+@router.delete(
+    "/{post_id}/comments/{comment_id}",
+)
+def delete_comment(
+    current_user_post=Depends(is_current_user_comment),
+    comment: models.Comment = Depends(find_comment),
+    session: Session = Depends(get_session),
+):
+    session.delete(comment)
+    session.commit()
+
+    return {"detail": f"post with id {comment.id} deleted"}

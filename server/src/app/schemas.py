@@ -35,6 +35,7 @@ class Comment(CommentBase):
     id: int
     post_id: int
     author_id: int
+    is_edited: bool
 
     class Config:
         orm_mode = True
@@ -43,6 +44,9 @@ class Comment(CommentBase):
 class CommentCreate(CommentBase):
     pass
 
+
+class CommentPatch(CommentBase):
+    pass
 
 # Post
 class PostBase(BaseModel):
