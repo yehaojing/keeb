@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
+from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from src.app.database import Base
 
@@ -22,6 +23,8 @@ class Post(Base):
     author_id = Column(Integer, ForeignKey("users.id"))
     is_edited = Column(Boolean, default=False)
     comments = relationship("Comment", lazy='subquery')
+    created_on = Column(DateTime, default=func.now())
+    updated_on = Column(DateTime, default=func.now())
 
 
 class Comment(Base):
@@ -31,6 +34,8 @@ class Comment(Base):
     is_edited = Column(Boolean, default=False)
     post_id = Column(Integer, ForeignKey("posts.id"))
     author_id = Column(Integer, ForeignKey("users.id"))
+    created_on = Column(DateTime, default=func.now())
+    updated_on = Column(DateTime, default=func.now())
 
 
 class User(Base):
@@ -44,3 +49,5 @@ class User(Base):
     keyboards = relationship("Keyboard", lazy='subquery')
     posts = relationship("Post", lazy='subquery')
     comments = relationship("Comment", lazy='subquery')
+    created_on = Column(DateTime, default=func.now())
+    updated_on = Column(DateTime, default=func.now())

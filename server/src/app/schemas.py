@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 # from typing import Optional
 
 
@@ -36,6 +37,8 @@ class Comment(CommentBase):
     post_id: int
     author_id: int
     is_edited: bool
+    created_on: datetime
+    updated_on: datetime
 
     class Config:
         orm_mode = True
@@ -47,6 +50,7 @@ class CommentCreate(CommentBase):
 
 class CommentPatch(CommentBase):
     pass
+
 
 # Post
 class PostBase(BaseModel):
@@ -63,6 +67,8 @@ class Post(PostCreate):
     author_id: int
     is_edited: bool
     comments: list[Comment] = []
+    created_on: datetime
+    updated_on: datetime
 
     class Config:
         orm_mode = True
@@ -78,6 +84,8 @@ class User(BaseModel):
     email: str | None = None
     full_name: str | None = None
     disabled: bool | None = False
+    created_on: datetime
+    updated_on: datetime
 
     class Config:
         orm_mode = True
