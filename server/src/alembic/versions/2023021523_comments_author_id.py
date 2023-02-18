@@ -1,7 +1,7 @@
 """add author_id to comments table, make it FKEY to users.id
 
-Revision ID: a41eef083eb2
-Revises: a25ed1ec5d05
+Revision ID: 2023021523_comments_author_id
+Revises: 2023021507_posts_author_id
 Create Date: 2023-02-15 23:05:10.453672
 
 """
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a41eef083eb2'
-down_revision = 'a25ed1ec5d05'
+revision = '2023021523_comments_author_id'
+down_revision = '2023021507_posts_author_id'
 branch_labels = None
 depends_on = None
 
