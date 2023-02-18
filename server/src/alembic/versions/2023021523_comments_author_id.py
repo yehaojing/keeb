@@ -18,11 +18,13 @@ depends_on = None
 logger = logging.getLogger('schema_migration')
 logger.setLevel(logging.INFO)
 
-migration_context = context.get_context()
-insp = sa.engine.reflection.Inspector.from_engine(migration_context.connection)
-
 
 def upgrade() -> None:
+    migration_context = context.get_context()
+    insp = sa.engine.reflection.Inspector.from_engine(
+        migration_context.connection
+    )
+
     if 'author_id' not in [
         col['name'] for col in insp.get_columns('comments')
     ]:
