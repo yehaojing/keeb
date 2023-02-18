@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 import src.app.models as models
 import src.app.schemas as schemas
-from src.app.dependencies import get_session
+from src.app.dependencies import get_session, get_current_active_user
 
 router = APIRouter(
     tags=["keyboards"]
@@ -23,7 +23,21 @@ def find_keyboard(
             detail=f"keyboard with id {keyboard_id} not found"
         )
 
-    session.close()
+    return keyboard
+
+
+def is_current_user_keyboard(
+    keyboard: models.Keyboard = Depends(find_keyboard),
+    current_user: schemas.UserInDB = Depends(get_current_active_user)
+):
+    if keyboard.owner_id != current_user.id:
+        raise HTTPException(
+            status_code=401,
+            detail=(
+                "Unauthorised operation on keyboard"
+                f" with id '{keyboard.id}'"
+            )
+        )
 
     return keyboard
 
@@ -35,7 +49,8 @@ def find_keyboard(
 )
 def create_keyboard(
     keyboard: schemas.KeyboardCreate,
-    session: Session = Depends(get_session)
+    session: Session = Depends(get_session),
+    current_user: schemas.UserInDB = Depends(get_current_active_user)
 ):
 
     keyboard_db = models.Keyboard(
@@ -43,7 +58,8 @@ def create_keyboard(
         switches=keyboard.switches,
         stabilisers=keyboard.stabilisers,
         keycaps=keyboard.keycaps,
-        manufacturer=keyboard.manufacturer
+        manufacturer=keyboard.manufacturer,
+        owner_id=current_user.id
     )
 
     session.add(keyboard_db)
@@ -67,11 +83,12 @@ def read_keyboard(
 
 @router.patch(
     "/{keyboard_id}",
-    response_model=schemas.Keyboard
+    response_model=schemas.Keyboard,
 )
 def update_keyboard(
     keyboard_id: int,
-    keyboard_patch: schemas.KeyboardCreate,
+    keyboard_patch: schemas.KeyboardPatch,
+    current_user_keyboard=Depends(is_current_user_keyboard),
     session: Session = Depends(get_session)
 ):
     session.query(models.Keyboard) \
@@ -87,12 +104,13 @@ def update_keyboard(
 )
 def delete_keyboard(
     session: Session = Depends(get_session),
-    keyboard=Depends(find_keyboard)
+    keyboard=Depends(find_keyboard),
+    current_user_keyboard=Depends(is_current_user_keyboard),
 ):
     session.delete(keyboard)
     session.commit()
 
-    return f"keyboard with id {keyboard.id} deleted"
+    return {"detail": f"keyboard with id {keyboard.id} deleted"}
 
 
 @router.get(

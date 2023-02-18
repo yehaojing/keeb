@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
+from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from src.app.database import Base
 
@@ -11,6 +12,7 @@ class Keyboard(Base):
     stabilisers = Column(String(50))
     keycaps = Column(String(50))
     manufacturer = Column(String(50))
+    owner_id = Column(Integer, ForeignKey("users.id"))
 
 
 class Post(Base):
@@ -18,9 +20,11 @@ class Post(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(50))
     content = Column(String(1024))
-    author_id = Column(String(50))
+    author_id = Column(Integer, ForeignKey("users.id"))
     is_edited = Column(Boolean, default=False)
     comments = relationship("Comment", lazy='subquery')
+    created_on = Column(DateTime, default=func.now())
+    updated_on = Column(DateTime, default=func.now())
 
 
 class Comment(Base):
@@ -29,6 +33,9 @@ class Comment(Base):
     content = Column(String(256))
     is_edited = Column(Boolean, default=False)
     post_id = Column(Integer, ForeignKey("posts.id"))
+    author_id = Column(Integer, ForeignKey("users.id"))
+    created_on = Column(DateTime, default=func.now())
+    updated_on = Column(DateTime, default=func.now())
 
 
 class User(Base):
@@ -37,5 +44,10 @@ class User(Base):
     full_name = Column(String(320))
     username = Column(String(24), unique=True)
     email = Column(String(320))
-    password_hash = Column(String(24))
+    password_hash = Column(String(64))
     disabled = Column(Boolean)
+    keyboards = relationship("Keyboard", lazy='subquery')
+    posts = relationship("Post", lazy='subquery')
+    comments = relationship("Comment", lazy='subquery')
+    created_on = Column(DateTime, default=func.now())
+    updated_on = Column(DateTime, default=func.now())

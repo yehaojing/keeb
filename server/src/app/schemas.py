@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 # from typing import Optional
 
 
@@ -12,6 +13,10 @@ class KeyboardBase(BaseModel):
 
 
 class KeyboardCreate(KeyboardBase):
+    owner_id: int
+
+
+class KeyboardPatch(KeyboardBase):
     pass
 
 
@@ -30,12 +35,20 @@ class CommentBase(BaseModel):
 class Comment(CommentBase):
     id: int
     post_id: int
+    author_id: int
+    is_edited: bool
+    created_on: datetime
+    updated_on: datetime
 
     class Config:
         orm_mode = True
 
 
 class CommentCreate(CommentBase):
+    pass
+
+
+class CommentPatch(CommentBase):
     pass
 
 
@@ -46,13 +59,16 @@ class PostBase(BaseModel):
 
 
 class PostCreate(PostBase):
-    author_id: int
+    pass
 
 
 class Post(PostCreate):
     id: int
+    author_id: int
     is_edited: bool
     comments: list[Comment] = []
+    created_on: datetime
+    updated_on: datetime
 
     class Config:
         orm_mode = True
@@ -68,6 +84,8 @@ class User(BaseModel):
     email: str | None = None
     full_name: str | None = None
     disabled: bool | None = False
+    created_on: datetime
+    updated_on: datetime
 
     class Config:
         orm_mode = True
@@ -80,6 +98,8 @@ class UserCreate(User):
 class UserInDB(User):
     id: int
     password_hash: str
+    keyboards: list[Keyboard] = []
+    posts: list[Post] = []
 
 
 class Token(BaseModel):
