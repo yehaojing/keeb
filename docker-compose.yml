@@ -1,11 +1,12 @@
+version: '3.8'
 services:
   client:
     image: keeb-client-prod
     build:
       context: ./client/
       dockerfile: Dockerfile
-    environment:
-      - REACT_APP_BACKEND_URL=keyboard/
+      args:
+        - REACT_APP_BACKEND_URL=http://localhost:80/api/keyboard
     ports:
       - 3000:3000
     container_name: keeb-client-prod
@@ -15,18 +16,37 @@ services:
     build:
       context: ./server/
       dockerfile: Dockerfile
-    volumes:
-      - ./server/:/usr/src/app
+    environment:
+      - JWT_SECRET_KEY=751665f91f4b69b4cc2cbc113ac505f1ceabb56fb0a86a48569042dc1e91cd7d
+      - DATABASE_URI=postgresql://user:pw@keeb-database-prod:5432/keeb
     ports:
-      - 3001:80
+      - 3001:3001
     container_name: keeb-server-prod
+    depends_on:
+      - database
 
   nginx:
-    image: nginx:1.20.1
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    image: keeb-reverse-proxy-prod
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile
     ports:
-      - 8080:80
+      - 80:80
     container_name: keeb-reverse-proxy-prod
     depends_on:
       - client
+  
+  database:
+    image: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_USER=user
+      - POSTGRES_DB=keeb
+    container_name: keeb-database-prod
+
+volumes:
+  postgres-data:
