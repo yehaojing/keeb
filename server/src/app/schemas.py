@@ -13,7 +13,7 @@ class KeyboardBase(BaseModel):
 
 
 class KeyboardCreate(KeyboardBase):
-    owner_id: int
+    pass
 
 
 class KeyboardPatch(KeyboardBase):
