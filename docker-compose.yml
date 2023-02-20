@@ -6,7 +6,7 @@ services:
       context: ./client/
       dockerfile: Dockerfile
       args:
-        - REACT_APP_BACKEND_URL=http://localhost:80/api/keyboard
+        - REACT_APP_BACKEND_URL=http://localhost:80/api
     ports:
       - 3000:3000
     container_name: keeb-client-prod
