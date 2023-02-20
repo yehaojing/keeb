@@ -4,6 +4,7 @@ import {
 } from "react-router-dom";
 import About from "./About";
 import Home from "./Home";
+import LoginForm from "./LoginForm";
 
 const MainView = () => {
     return (
@@ -11,6 +12,7 @@ const MainView = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/login" element={<LoginForm />} />
             </Routes>
         </>
     );

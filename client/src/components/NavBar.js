@@ -13,7 +13,7 @@ const NavBar = () => {
           Keeb
         </Typography>
         <div style={{ alignItems: 'flex-end' }}>
-          <Button variant="outlined" style={classes.outlineButton} color="inherit" component={Link} to="/">
+          <Button style={classes.outlineButton} color="inherit" component={Link} to="/">
             <Typography variant="h5">
               Home
             </Typography>
@@ -21,6 +21,11 @@ const NavBar = () => {
           <Button color="inherit" style={classes.outlineButton} component={Link} to="/about">
             <Typography variant="h5">
               About
+            </Typography>
+          </Button>
+          <Button variant="outlined" style={classes.outlineButton} color="inherit" component={Link} to="/login">
+            <Typography variant="h5">
+              Login
             </Typography>
           </Button>
         </div>
