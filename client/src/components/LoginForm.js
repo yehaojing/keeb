@@ -1,26 +1,25 @@
 import React from "react";
 import { useState } from "react";
 import userService from "../services/user";
+import { useNavigate } from "react-router-dom";
 
 import { TextField, Button } from "@mui/material";
 
 const LoginForm = () => {
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const loginHandler = async (username, password) => {
+  const loginHandler = async (event) => {
+    event.preventDefault();
     try {
       const user = await userService.login(username, password);
       window.localStorage.setItem("keeb_user_token", JSON.stringify(user));
+      navigate("/");
+      window.location.reload();
     } catch (exception) {
-      console.log(exception)
+      console.log(exception);
     }
-  };
-
-  const login = (event) => {
-    event.preventDefault();
-    loginHandler(username, password);
     setUsername("");
     setPassword("");
   };
@@ -28,7 +27,7 @@ const LoginForm = () => {
   return (
     <div>
       <h1>Login</h1>
-      <form onSubmit={login}>
+      <form onSubmit={loginHandler}>
         Username
         <div>
           <TextField
@@ -47,7 +46,9 @@ const LoginForm = () => {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <Button variant="contained" type="submit">login</Button>
+        <Button variant="contained" type="submit">
+          login
+        </Button>
       </form>
     </div>
   );
