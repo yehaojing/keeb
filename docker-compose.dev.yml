@@ -8,7 +8,7 @@ services:
       - ./client/src:/usr/src/app/src
       - ./client/public:/usr/src/app/public
     environment:
-      - REACT_APP_BACKEND_URL=api/keyboard/
+      - REACT_APP_BACKEND_URL=http://localhost:80/api
     ports:
       - 3000:3000
     container_name: keeb-client-dev
@@ -24,17 +24,19 @@ services:
     volumes:
       - ./server/src/:/usr/src/app/src
     ports:
-      - 80:80
+      - 3001:3001
     container_name: keeb-server-dev
     depends_on:
       - database
 
   nginx:
-    image: nginx:1.20.1
+    build:
+      context: ./nginx/
+      dockerfile: dev.Dockerfile
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - 8080:80
+      - 80:80
     container_name: keeb-reverse-proxy-dev
     depends_on:
       - client

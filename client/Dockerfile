@@ -9,7 +9,10 @@ RUN npm ci --force && npm cache clean --force
 COPY ./src ./src
 COPY ./public ./public
 
-RUN REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL npm run build
+ARG REACT_APP_BACKEND_URL
+ENV REACT_APP_BACKEND_URL $REACT_APP_BACKEND_URL
+
+RUN npm run build
 
 RUN npm install -g serve
 
