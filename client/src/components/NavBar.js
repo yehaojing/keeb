@@ -42,8 +42,8 @@ const NavBar = ({ login }) => {
                 variant="outlined"
                 style={classes.outlineButton}
                 onClick={() => {
-                  window.localStorage.removeItem("keeb_user_token")
-                  navigate("/")
+                  window.localStorage.removeItem("keeb_user_token");
+                  navigate("/");
                   window.location.reload();
                 }}
                 color="inherit"

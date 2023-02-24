@@ -1,3 +1,3 @@
 devServer: {
-    disableHostCheck: true
+  disableHostCheck: true;
 }

@@ -1,5 +1,5 @@
-import axios from '../utils/apiClient'
-const baseUrl = "/keyboard"
+import axios from "../utils/apiClient";
+const baseUrl = "/keyboard";
 
 const getAll = () => {
   const request = axios.get(baseUrl);

@@ -6,18 +6,15 @@ const KeyboardList = ({ keyboards }) => {
   // const classes = useStyles();
   return (
     <Table>
-      {
-        keyboards.map(keyboard => {
-          return (
-            <>
-              <TableRow></TableRow>
-            </>
-          )
-        })}
-
+      {keyboards.map((keyboard) => {
+        return (
+          <>
+            <TableRow>{keyboard}</TableRow>
+          </>
+        );
+      })}
     </Table>
-  )
-}
+  );
+};
 
-
-export default KeyboardList
+export default KeyboardList;
