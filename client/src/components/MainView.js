@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Routes, Route } from "react-router-dom";
 import About from "./About";
-import Home from "./Home";
+import KeyboardsView from "./KeyboardsView";
 import LoginForm from "./LoginForm";
 
 const MainView = ({ keyboards, handlePost, handleDelete }) => {
@@ -12,7 +12,7 @@ const MainView = ({ keyboards, handlePost, handleDelete }) => {
         <Route
           path="/"
           element={
-            <Home
+            <KeyboardsView
               keyboards={keyboards}
               handlePost={handlePost}
               handleDelete={handleDelete}

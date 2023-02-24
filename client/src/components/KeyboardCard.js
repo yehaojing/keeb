@@ -1,13 +1,20 @@
 import * as React from "react";
+import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Card, Button, CardContent, CardHeader, Typography } from "@mui/material";
+import {
+  Card,
+  Button,
+  CardContent,
+  CardHeader,
+  Typography,
+  // Paper,
+} from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import useStyles from "./style";
 
 const KeyboardCard = ({ keyboard, handleDelete }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -25,9 +32,16 @@ const KeyboardCard = ({ keyboard, handleDelete }) => {
     handleDelete();
   };
 
-  const classes = useStyles();
+  const StyledCard = styled(Card)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    margin: theme.spacing(1),
+    color: theme.palette.text.secondary,
+  }));
+
   return (
-    <Card variant="outlined" style={classes.root}>
+    <StyledCard>
       <CardHeader
         title={keyboard.name}
         subheader={keyboard.manufacturer}
@@ -44,7 +58,11 @@ const KeyboardCard = ({ keyboard, handleDelete }) => {
         }
       />
       <CardContent
-        sx={{ paddingTop: 0, display: "flex", justifyContent: "space-between" }}
+        sx={{
+          paddingTop: 0,
+          display: "flex",
+          justifyContent: "space-between",
+        }}
       >
         <div>
           <Typography variant="body1">Switches</Typography>
@@ -65,7 +83,7 @@ const KeyboardCard = ({ keyboard, handleDelete }) => {
           handleDeleteClose={handleDeleteClose}
         />
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 };
 
