@@ -10,7 +10,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["react"],
+  plugins: ["react", "simple-import-sort"],
   rules: {
     indent: ["error", 2],
     "linebreak-style": ["error", "unix"],
@@ -23,5 +23,6 @@ module.exports = {
     "no-console": 0,
     "react/prop-types": 0,
     "react/react-in-jsx-scope": "off",
+    "simple-import-sort/imports": "error",
   },
 };

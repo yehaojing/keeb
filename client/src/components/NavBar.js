@@ -1,8 +1,9 @@
-import React from "react";
+import { Button,Toolbar, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import PropTypes from "prop-types";
-import { Toolbar, Typography, Button } from "@mui/material";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import useStyles from "./style";
 
 const NavBar = ({ login }) => {

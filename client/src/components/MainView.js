@@ -1,10 +1,11 @@
-import React from "react";
+import { Paper } from "@mui/material";
 import PropTypes from "prop-types";
-import { Routes, Route } from "react-router-dom";
+import React from "react";
+import { Route,Routes } from "react-router-dom";
+
 import About from "./About";
 import KeyboardsView from "./KeyboardsView";
 import LoginForm from "./LoginForm";
-import { Paper } from "@mui/material";
 
 const MainView = ({ keyboards, handlePost, handleDelete }) => {
   return (
