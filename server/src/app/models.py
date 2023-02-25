@@ -13,6 +13,7 @@ class Keyboard(Base):
     keycaps = Column(String(50))
     manufacturer = Column(String(50))
     owner_id = Column(Integer, ForeignKey("users.id"))
+    owner = relationship("User", lazy='subquery')
 
 
 class Post(Base):

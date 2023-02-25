@@ -7,10 +7,9 @@ import {
   CardContent,
   CardHeader,
   Typography,
-  CardActions,
   IconButton,
   Collapse,
-  CardMedia
+  CardMedia,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Dialog from "@mui/material/Dialog";
@@ -50,7 +49,7 @@ const KeyboardCard = ({ keyboard, handleDelete }) => {
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    margin: theme.spacing(1),
+    margin: theme.spacing(),
     color: theme.palette.text.secondary,
   }));
 
@@ -64,7 +63,17 @@ const KeyboardCard = ({ keyboard, handleDelete }) => {
     <StyledCard>
       <CardHeader
         title={keyboard.name}
-        subheader={keyboard.manufacturer}
+        subheader={keyboard.owner.username}
+        action={
+          <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </ExpandMore>
+        }
       />
       <CardMedia
         component="img"
@@ -72,21 +81,9 @@ const KeyboardCard = ({ keyboard, handleDelete }) => {
         height="140"
         image="https://images.squarespace-cdn.com/content/v1/4f31dc46cb127c78280cc974/1631080589725-U6TWH5F30U6BFWZLE50P/Norbauer+Heavy+Grail.jpg?format=1000w"
       />
-
-      <CardActions disableSpacing>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent
           sx={{
-            paddingTop: 0,
             display: "flex",
             justifyContent: "space-between",
           }}

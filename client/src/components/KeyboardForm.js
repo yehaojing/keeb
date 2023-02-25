@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { Card, Button, CardContent } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -8,10 +9,18 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import useStyles from "./style";
+// import useStyles from "./style";
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  margin: theme.spacing(1),
+  color: theme.palette.text.secondary,
+}));
 
 const KeyboardForm = ({ handlePost }) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const [deleteModalOpen, setPostModalOpen] = useState(false);
   const [form, setForm] = useState({});
 
@@ -30,7 +39,7 @@ const KeyboardForm = ({ handlePost }) => {
   };
 
   return (
-    <Card variant="outlined" style={classes.root}>
+    <StyledCard>
       <CardContent sx={{ display: "flex", justifyContent: "center" }}>
         <Button variant="outlined" onClick={handlePostModalOpen}>
           Add Keyboard
@@ -43,7 +52,7 @@ const KeyboardForm = ({ handlePost }) => {
         handleClose={handleClose}
         handlePostClose={handlePostClose}
       />
-    </Card>
+    </StyledCard>
   );
 };
 

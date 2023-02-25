@@ -20,13 +20,6 @@ class KeyboardPatch(KeyboardBase):
     pass
 
 
-class Keyboard(KeyboardBase):
-    id: int
-
-    class Config:
-        orm_mode = True
-
-
 # Comment
 class CommentBase(BaseModel):
     content: str
@@ -93,6 +86,14 @@ class User(BaseModel):
 
 class UserCreate(User):
     password: str
+
+
+class Keyboard(KeyboardBase):
+    id: int
+    owner: User
+
+    class Config:
+        orm_mode = True
 
 
 class UserInDB(User):
