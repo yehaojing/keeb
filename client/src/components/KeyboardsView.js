@@ -1,32 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
+// import Box from "@mui/material/Box";
+// import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import KeyboardCard from "./KeyboardCard";
 import KeyboardForm from "./KeyboardForm";
 
 const KeyboardsView = ({ keyboards, handlePost, handleDelete }) => {
   return (
-    <Paper style={{ marginTop: 80 }}>
-      <Box>
-        <Grid container spacing={0.5}>
-          {keyboards.map((keyboard) => {
-            return (
-              <Grid item xs={12} sm={6} md={4} lg={2} key={keyboard.id}>
-                <KeyboardCard
-                  item
-                  key={keyboard.id}
-                  keyboard={keyboard}
-                  handleDelete={handleDelete(keyboard.id)}
-                />
-              </Grid>
-            );
-          })}
-        </Grid>
-        <KeyboardForm handlePost={handlePost} />
-      </Box>
-    </Paper>
+    <>
+      <Grid container spacing={0.5}>
+        {keyboards.map((keyboard) => {
+          return (
+            <Grid item xs={12} sm={6} md={4} lg={2} key={keyboard.id}>
+              <KeyboardCard
+                item
+                key={keyboard.id}
+                keyboard={keyboard}
+                handleDelete={handleDelete(keyboard.id)}
+              />
+            </Grid>
+          );
+        })}
+      </Grid>
+      <KeyboardForm handlePost={handlePost} />
+    </>
   );
 };
 

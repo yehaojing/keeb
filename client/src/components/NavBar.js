@@ -25,7 +25,7 @@ const NavBar = ({ login }) => {
             component={Link}
             to="/"
           >
-            <Typography variant="h5">Home</Typography>
+            <Typography variant="h5">Keyboards</Typography>
           </Button>
           <Button
             color="inherit"

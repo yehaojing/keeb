@@ -4,10 +4,11 @@ import { Routes, Route } from "react-router-dom";
 import About from "./About";
 import KeyboardsView from "./KeyboardsView";
 import LoginForm from "./LoginForm";
+import { Paper } from "@mui/material";
 
 const MainView = ({ keyboards, handlePost, handleDelete }) => {
   return (
-    <>
+    <Paper style={{ marginTop: 80 }}>
       <Routes>
         <Route
           path="/"
@@ -22,7 +23,7 @@ const MainView = ({ keyboards, handlePost, handleDelete }) => {
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<LoginForm />} />
       </Routes>
-    </>
+    </Paper>
   );
 };
 
