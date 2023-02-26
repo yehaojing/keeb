@@ -29,6 +29,14 @@ const NavBar = ({ login }) => {
             <Typography variant="h5">Keyboards</Typography>
           </Button>
           <Button
+            style={classes.outlineButton}
+            color="inherit"
+            component={Link}
+            to="/social"
+          >
+            <Typography variant="h5">Social</Typography>
+          </Button>
+          <Button
             color="inherit"
             style={classes.outlineButton}
             component={Link}

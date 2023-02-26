@@ -3,17 +3,27 @@ import React, { useEffect, useState } from "react";
 import MainView from "./components/MainView";
 import NavBar from "./components/NavBar";
 import keyboardService from "./services/keyboard";
+import postService from "./services/posts";
 import apiClient from "./utils/apiClient";
+
 export default function App() {
   const [login, setLogin] = useState({});
   const [keyboards, setKeyboards] = useState([]);
+  const [posts, setPosts] = useState([]);
 
-  const hook = () => {
+  const keyboardHook = () => {
     keyboardService.getAll().then((response) => {
       setKeyboards(response);
     });
   };
-  useEffect(hook, []);
+  useEffect(keyboardHook, []);
+
+  const postHook = () => {
+    postService.getAll().then((response) => {
+      setPosts(response);
+    });
+  };
+  useEffect(postHook, []);
 
   useEffect(() => {
     const keebUser = window.localStorage.getItem("keeb_user_token");
@@ -45,6 +55,7 @@ export default function App() {
       <NavBar login={login} />
       <MainView
         keyboards={keyboards}
+        posts={posts}
         handlePost={handlePost}
         handleDelete={handleDelete}
       />

@@ -6,8 +6,9 @@ import { Route,Routes } from "react-router-dom";
 import About from "./About";
 import KeyboardsView from "./KeyboardsView";
 import LoginForm from "./LoginForm";
+import Social from "./Social";
 
-const MainView = ({ keyboards, handlePost, handleDelete }) => {
+const MainView = ({ keyboards, posts, handlePost, handleDelete }) => {
   return (
     <Paper style={{ marginTop: 80 }}>
       <Routes>
@@ -21,6 +22,7 @@ const MainView = ({ keyboards, handlePost, handleDelete }) => {
             />
           }
         />
+        <Route path="/social" element={<Social posts={posts}/>} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<LoginForm />} />
       </Routes>
@@ -30,6 +32,7 @@ const MainView = ({ keyboards, handlePost, handleDelete }) => {
 
 MainView.propTypes = {
   keyboards: PropTypes.array,
+  posts: PropTypes.array,
   handlePost: PropTypes.func,
   handleDelete: PropTypes.func,
 };
