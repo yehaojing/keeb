@@ -22,6 +22,7 @@ class Post(Base):
     title = Column(String(50))
     content = Column(String(1024))
     author_id = Column(Integer, ForeignKey("users.id"))
+    author = relationship("User", lazy='subquery')
     is_edited = Column(Boolean, default=False)
     comments = relationship("Comment", lazy='subquery')
     created_on = Column(DateTime, default=func.now())
@@ -35,6 +36,7 @@ class Comment(Base):
     is_edited = Column(Boolean, default=False)
     post_id = Column(Integer, ForeignKey("posts.id"))
     author_id = Column(Integer, ForeignKey("users.id"))
+    author = relationship("User", lazy='subquery')
     created_on = Column(DateTime, default=func.now())
     updated_on = Column(DateTime, default=func.now())
 

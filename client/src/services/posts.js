@@ -6,6 +6,11 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
+const getPost = (id) => {
+  const request = axios.get(`${baseUrl}/${id}`);
+  return request.then((response) => response.data);
+};
+
 const postNewPost = (newPost) => {
   const request = axios.post(baseUrl, newPost);
   return request.then((response) => response.data);
@@ -19,6 +24,7 @@ const deletePost = (id) => {
 
 const exportedObject = {
   getAll,
+  getPost,
   postNewPost,
   deletePost,
 };

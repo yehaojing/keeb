@@ -55,18 +55,6 @@ class PostCreate(PostBase):
     pass
 
 
-class Post(PostCreate):
-    id: int
-    author_id: int
-    is_edited: bool
-    comments: list[Comment] = []
-    created_on: datetime
-    updated_on: datetime
-
-    class Config:
-        orm_mode = True
-
-
 class PostPatch(PostBase):
     pass
 
@@ -91,6 +79,22 @@ class UserCreate(User):
 class Keyboard(KeyboardBase):
     id: int
     owner: User
+
+    class Config:
+        orm_mode = True
+
+
+class CommentView(Comment):
+    author: User
+
+
+class Post(PostCreate):
+    id: int
+    author: User
+    is_edited: bool
+    comments: list[CommentView] = []
+    created_on: datetime
+    updated_on: datetime
 
     class Config:
         orm_mode = True

@@ -1,5 +1,6 @@
 import { Container, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,17 +12,23 @@ import {
   parseISO,
 } from "date-fns";
 import PropTypes from "prop-types";
-import { useState } from "react";
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
+
+
+const StyledContainer = styled(Container)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  // margin: theme.spacing(),
+  color: theme.palette.text.secondary,
+}));
 
 const Social = ({ posts }) => {
-  console.log(posts);
-  const [selectedRow, setSelectedRow] = useState({});
-  selectedRow;
-
+  const navigate = useNavigate();
   return (
     <>
-      <Container>
+      <StyledContainer>
         <Typography variant="h3">Social</Typography>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -39,11 +46,10 @@ const Social = ({ posts }) => {
                 })
                 .map((post) => (
                   <TableRow
-                    key={post.id}
+                    key={`${post.id}_${post.title}`}
                     hover={true}
                     onClick={() => {
-                      console.log(post);
-                      setSelectedRow(post);
+                      navigate(`/social/${post.id}`);
                     }}
                   >
                     <TableCell component="th" scope="row">
@@ -60,7 +66,7 @@ const Social = ({ posts }) => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Container>
+      </StyledContainer>
     </>
   );
 };

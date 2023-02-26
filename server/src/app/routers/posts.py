@@ -82,7 +82,8 @@ def create_post(
 
 
 @router.get(
-    "/{post_id}/"
+    "/{post_id}/",
+    response_model=schemas.Post
 )
 def get_post(
     post_id: int,
