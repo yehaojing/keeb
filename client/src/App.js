@@ -58,6 +58,7 @@ export default function App() {
         posts={posts}
         handlePost={handlePost}
         handleDelete={handleDelete}
+        login={login}
       />
     </>
   );
