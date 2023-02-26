@@ -8,22 +8,13 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
-import { styled } from "@mui/material/styles";
-import { Container } from "@mui/system";
 import { formatRelative, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
 import * as React from "react";
 import { useParams } from "react-router-dom";
 
 import postService from "../services/posts";
-
-const StyledContainer = styled(Container)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  marginTop: theme.spacing(10),
-  color: theme.palette.text.secondary,
-}));
+import StyledContainer from "./StyledContainer";
 
 export const PostView = () => {
   const { id } = useParams();

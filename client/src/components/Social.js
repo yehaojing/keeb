@@ -1,6 +1,5 @@
-import { Container, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -15,14 +14,7 @@ import PropTypes from "prop-types";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
-
-const StyledContainer = styled(Container)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  // margin: theme.spacing(),
-  color: theme.palette.text.secondary,
-}));
+import StyledContainer from "./StyledContainer";
 
 const Social = ({ posts }) => {
   const navigate = useNavigate();

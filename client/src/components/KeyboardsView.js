@@ -4,11 +4,11 @@ import React from "react";
 
 import KeyboardCard from "./KeyboardCard";
 import KeyboardForm from "./KeyboardForm";
+import StyledContainer from "./StyledContainer";
 
 const KeyboardsView = ({ keyboards, handlePost, handleDelete }) => {
   return (
-    <>
-
+    <StyledContainer>
       <Grid container spacing={0.5}>
         {keyboards.map((keyboard) => {
           return (
@@ -25,10 +25,8 @@ const KeyboardsView = ({ keyboards, handlePost, handleDelete }) => {
         <Grid item xs={12} sm={6} md={4} lg={2}>
           <KeyboardForm handlePost={handlePost} />
         </Grid>
-
       </Grid>
-
-    </>
+    </StyledContainer>
   );
 };
 
