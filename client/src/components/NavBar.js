@@ -1,8 +1,9 @@
-import React from "react";
+import { Button,Toolbar, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import PropTypes from "prop-types";
-import { Toolbar, Typography, Button } from "@mui/material";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import useStyles from "./style";
 
 const NavBar = ({ login }) => {
@@ -25,7 +26,15 @@ const NavBar = ({ login }) => {
             component={Link}
             to="/"
           >
-            <Typography variant="h5">Home</Typography>
+            <Typography variant="h5">Keyboards</Typography>
+          </Button>
+          <Button
+            style={classes.outlineButton}
+            color="inherit"
+            component={Link}
+            to="/social"
+          >
+            <Typography variant="h5">Social</Typography>
           </Button>
           <Button
             color="inherit"
@@ -42,8 +51,8 @@ const NavBar = ({ login }) => {
                 variant="outlined"
                 style={classes.outlineButton}
                 onClick={() => {
-                  window.localStorage.removeItem("keeb_user_token")
-                  navigate("/")
+                  window.localStorage.removeItem("keeb_user_token");
+                  navigate("/");
                   window.location.reload();
                 }}
                 color="inherit"

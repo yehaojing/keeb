@@ -1,17 +1,22 @@
 import axios from "../utils/apiClient";
-const baseUrl = "/keyboard";
+const baseUrl = "/posts";
 
 const getAll = () => {
   const request = axios.get(baseUrl);
   return request.then((response) => response.data);
 };
 
-const postNewKeyboard = (newKeyboard) => {
-  const request = axios.post(baseUrl, newKeyboard);
+const getPost = (id) => {
+  const request = axios.get(`${baseUrl}/${id}`);
   return request.then((response) => response.data);
 };
 
-const deleteKeyboard = (id) => {
+const postNewPost = (newPost) => {
+  const request = axios.post(baseUrl, newPost);
+  return request.then((response) => response.data);
+};
+
+const deletePost = (id) => {
   const deleteRequest = axios.delete(`${baseUrl}/${id}`);
 
   return deleteRequest.then((response) => response.data);
@@ -19,8 +24,9 @@ const deleteKeyboard = (id) => {
 
 const exportedObject = {
   getAll,
-  postNewKeyboard,
-  deleteKeyboard,
+  getPost,
+  postNewPost,
+  deletePost,
 };
 
 export default exportedObject;

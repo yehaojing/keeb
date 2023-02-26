@@ -82,7 +82,8 @@ def create_post(
 
 
 @router.get(
-    "/{post_id}/"
+    "/{post_id}/",
+    response_model=schemas.Post
 )
 def get_post(
     post_id: int,
@@ -144,15 +145,12 @@ def read_post_list(
 
     resp = (
         session
-        .query(models.Post, models.Comment)
-        .join(models.Comment, isouter=True)
+        .query(models.Post)
         .all()
     )
     session.close()
 
-    post_list = [p for (p, c) in resp]
-
-    return post_list
+    return resp
 
 
 @router.post(
