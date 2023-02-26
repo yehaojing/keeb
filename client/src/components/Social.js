@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,6 +14,7 @@ import PropTypes from "prop-types";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
+import StyledButton from "./StyledButton";
 import StyledContainer from "./StyledContainer";
 
 const Social = ({ posts }) => {
@@ -21,7 +22,10 @@ const Social = ({ posts }) => {
   return (
     <>
       <StyledContainer>
-        <Typography variant="h3">Social</Typography>
+        <Container style={{ flexDirection: "row", display: "flex", padding: 0, justifyContent: "space-between" }}>
+          <Typography variant="h3">Social</Typography>
+          <StyledButton variant="contained" on>New Post</StyledButton>
+        </Container>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>

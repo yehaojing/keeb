@@ -9,6 +9,8 @@ import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
 import * as React from "react";
 import { useState } from "react";
+
+import StyledButton from "./StyledButton";
 // import useStyles from "./style";
 
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -41,9 +43,9 @@ const KeyboardForm = ({ handlePost }) => {
   return (
     <StyledCard>
       <CardContent sx={{ display: "flex", justifyContent: "center" }}>
-        <Button variant="outlined" onClick={handlePostModalOpen}>
+        <StyledButton onClick={handlePostModalOpen}>
           Add Keyboard
-        </Button>
+        </StyledButton>
       </CardContent>
       <NewKeyboardModal
         form={form}
