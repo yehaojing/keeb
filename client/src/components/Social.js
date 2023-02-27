@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import postService from "../services/posts";
+import Breadcrumbs from "./Breadcrumbs";
 import NewPostModal from "./PostForm";
 import StyledContainer from "./StyledContainer";
 
@@ -28,6 +29,8 @@ const Social = ({ login }) => {
 
   const navigate = useNavigate();
 
+  const crumbs =[{ link: "/", name: "Home" }, { link: "/social", name: "Social" }];
+
   return (
     <>
       <StyledContainer>
@@ -39,7 +42,7 @@ const Social = ({ login }) => {
             justifyContent: "space-between",
           }}
         >
-          <Typography variant="h3">Social</Typography>
+          <Breadcrumbs crumbs={crumbs}/>
           <NewPostModal login={login} />
         </Container>
         <TableContainer component={Paper}>
