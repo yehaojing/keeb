@@ -6,25 +6,41 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import {
-  formatRelative,
-  parseISO,
-} from "date-fns";
+import { formatRelative, parseISO } from "date-fns";
 import PropTypes from "prop-types";
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import StyledButton from "./StyledButton";
+import postService from "../services/posts";
+import NewPostModal from "./PostForm";
 import StyledContainer from "./StyledContainer";
 
-const Social = ({ posts }) => {
+const Social = ({ login }) => {
+  const [posts, setPosts] = useState([]);
+
+  const postHook = () => {
+    postService.getAll().then((response) => {
+      setPosts(response);
+    });
+  };
+  useEffect(postHook, []);
+
   const navigate = useNavigate();
+
   return (
     <>
       <StyledContainer>
-        <Container style={{ flexDirection: "row", display: "flex", padding: 0, justifyContent: "space-between" }}>
+        <Container
+          style={{
+            flexDirection: "row",
+            display: "flex",
+            padding: 0,
+            justifyContent: "space-between",
+          }}
+        >
           <Typography variant="h3">Social</Typography>
-          <StyledButton variant="contained" on>New Post</StyledButton>
+          <NewPostModal login={login} />
         </Container>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -50,7 +66,9 @@ const Social = ({ posts }) => {
                   >
                     <TableCell component="th" scope="row">
                       <Typography variant="h5">{post.title}</Typography>
-                      <Typography variant="subtitle1">{post.author_id}</Typography>
+                      <Typography variant="subtitle1">
+                        {post.author_id}
+                      </Typography>
                     </TableCell>
 
                     <TableCell align="right">
