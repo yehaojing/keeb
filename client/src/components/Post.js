@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 
 import postService from "../services/posts";
 import Breadcrumbs from "./Breadcrumbs";
+import CommentForm from "./CommentForm";
 import StyledContainer from "./StyledContainer";
 
 export const PostView = () => {
@@ -20,19 +21,19 @@ export const PostView = () => {
   const [crumbs, setCrumbs] = useState([]);
   const postHook = (id) => {
     return () => {
-      postService
-        .getPost(id)
-        .then((response) => {
-          setPost(response);
-          setCrumbs([
-            { link: "/", name: "Home" },
-            { link: "/social", name: "Social" },
-            { link: `/social/${response.id}`, name: `${response.title}` },
-          ]);
-        });
+      postService.getPost(id).then((response) => {
+        setPost(response);
+        setCrumbs([
+          { link: "/", name: "Home" },
+          { link: "/social", name: "Social" },
+          { link: `/social/${response.id}`, name: `${response.title}` },
+        ]);
+      });
     };
   };
   useEffect(postHook(id), []);
+
+  console.log(id);
 
   return (
     post && (
@@ -50,9 +51,27 @@ export const PostView = () => {
               <CommentItem comment={comment} key={comment.id}></CommentItem>
             );
           })}
+          <CommentFormItem postId={id} />
         </List>
       </StyledContainer>
     )
+  );
+};
+
+const CommentFormItem = ({ postId }) => {
+  return (
+    <>
+      <ListItem style={{ justifyContent: "center" }}>
+        <div style={{ marginRight: "5%", width: "10%" }}>
+          <ListItemAvatar>
+            <Avatar>
+              <ImageIcon />
+            </Avatar>
+          </ListItemAvatar>
+        </div>
+        <CommentForm postId={postId}></CommentForm>
+      </ListItem>
+    </>
   );
 };
 
