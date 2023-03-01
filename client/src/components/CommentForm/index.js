@@ -20,7 +20,6 @@ const CommentForm = ({ postId }) => {
     <>
       <Container style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
         <TextField
-          autoFocus
           margin="dense"
           label="Comment"
           multiline

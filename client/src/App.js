@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 import MainView from "./components/MainView";
 import NavBar from "./components/NavBar";
@@ -6,8 +7,12 @@ import keyboardService from "./services/keyboard";
 import apiClient from "./utils/apiClient";
 
 export default function App() {
-  const [login, setLogin] = useState({});
+  const [login] = useCookies(["access_token"]);
   const [keyboards, setKeyboards] = useState([]);
+
+  apiClient.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${login.access_token}`;
 
   const keyboardHook = () => {
     keyboardService.getAll().then((response) => {
@@ -15,19 +20,6 @@ export default function App() {
     });
   };
   useEffect(keyboardHook, []);
-
-
-
-  useEffect(() => {
-    const keebUser = window.localStorage.getItem("keeb_user_token");
-    if (keebUser) {
-      const login = JSON.parse(keebUser);
-      setLogin(login);
-      apiClient.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${login.access_token}`;
-    }
-  }, []);
 
   const handleDelete = (id) => {
     return async () => {

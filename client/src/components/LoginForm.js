@@ -13,8 +13,7 @@ const LoginForm = () => {
   const loginHandler = async (event) => {
     event.preventDefault();
     try {
-      const user = await userService.login(username, password);
-      window.localStorage.setItem("keeb_user_token", JSON.stringify(user));
+      await userService.login(username, password);
       navigate("/");
       window.location.reload();
     } catch (exception) {

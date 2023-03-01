@@ -2,11 +2,14 @@ import { Button,Toolbar, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import PropTypes from "prop-types";
 import React from "react";
+import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 
 import useStyles from "./style";
 
-const NavBar = ({ login }) => {
+const NavBar = () => {
+  // eslint-disable-next-line no-unused-vars
+  const [login, setLogin, removeLogin] = useCookies(["access_token"]);
   const navigate = useNavigate();
   const classes = useStyles();
   return (
@@ -51,7 +54,7 @@ const NavBar = ({ login }) => {
                 variant="outlined"
                 style={classes.outlineButton}
                 onClick={() => {
-                  window.localStorage.removeItem("keeb_user_token");
+                  removeLogin("access_token");
                   navigate("/");
                   window.location.reload();
                 }}
