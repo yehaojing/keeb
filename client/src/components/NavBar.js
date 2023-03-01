@@ -1,3 +1,5 @@
+import ForumIcon from "@mui/icons-material/Forum";
+import KeyboardIcon from "@mui/icons-material/Keyboard";
 import { Button, Slide, Toolbar, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
@@ -37,7 +39,13 @@ const NavBar = () => {
               component={Link}
               to="/"
             >
-              <Typography variant="h5">Keyboards</Typography>
+              <Typography
+                variant="h5"
+                sx={{ display: { xs: "none", sm: "flex" } }}
+              >
+                Keyboards
+              </Typography>
+              <KeyboardIcon sx={{ display: { xs: "flex", sm: "none" } }} />
             </Button>
             <Button
               style={classes.outlineButton}
@@ -45,15 +53,13 @@ const NavBar = () => {
               component={Link}
               to="/social"
             >
-              <Typography variant="h5">Social</Typography>
-            </Button>
-            <Button
-              color="inherit"
-              style={classes.outlineButton}
-              component={Link}
-              to="/about"
-            >
-              <Typography variant="h5">About</Typography>
+              <Typography
+                variant="h5"
+                sx={{ display: { xs: "none", sm: "flex" } }}
+              >
+                Social
+              </Typography>
+              <ForumIcon sx={{ display: { xs: "flex", sm: "none" } }} />
             </Button>
 
             {login.access_token ? (
