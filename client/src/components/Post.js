@@ -33,8 +33,6 @@ export const PostView = () => {
   };
   useEffect(postHook(id), []);
 
-  console.log(id);
-
   return (
     post && (
       <StyledContainer>
