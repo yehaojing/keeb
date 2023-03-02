@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+from typing import Union
 from datetime import timedelta
 
 import src.app.schemas as schemas
@@ -11,7 +12,7 @@ from src.app.dependencies import (
     verify_password,
     get_current_active_user,
     create_access_token,
-    ACCESS_TOKEN_EXPIRE_MINUTES
+    # ACCESS_TOKEN_EXPIRE_MINUTES
 )
 
 
@@ -32,8 +33,7 @@ def create_new_user(
         full_name=user.full_name,
         username=user.username,
         email=user.email,
-        password_hash=hash_password(user.password),
-        disabled=user.disabled
+        password_hash=hash_password(user.password)
     )
 
     session.add(user_db)
@@ -48,6 +48,8 @@ def create_new_user(
     "/token",
 )
 async def login(
+    response: Response,
+    access_token_expire_minutes: Union[int, None] = None,
     form_data: OAuth2PasswordRequestForm = Depends(),
     session: Session = Depends(get_session)
 ):
@@ -71,9 +73,21 @@ async def login(
             detail="Incorrect username or password"
         )
 
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    if access_token_expire_minutes:
+        access_token_expires = (
+            timedelta(minutes=access_token_expire_minutes)
+        )
+        max_age = access_token_expire_minutes * 60
+    else:
+        access_token_expires = None
+        max_age = None
+
     access_token = create_access_token(
         data={"username": user.username}, expires_delta=access_token_expires
+    )
+
+    response.set_cookie(
+        key="access_token", value=access_token, max_age=max_age
     )
 
     return {"access_token": access_token, "token_type": "bearer"}

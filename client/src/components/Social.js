@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,24 +6,47 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import {
-  formatRelative,
-  parseISO,
-} from "date-fns";
+import { formatRelative, parseISO } from "date-fns";
 import PropTypes from "prop-types";
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import postService from "../services/posts";
+import Breadcrumbs from "./Breadcrumbs";
+import NewPostModal from "./PostForm";
 import StyledContainer from "./StyledContainer";
 
-const Social = ({ posts }) => {
+const Social = ({ login }) => {
+  const [posts, setPosts] = useState([]);
+
+  const postHook = () => {
+    postService.getAll().then((response) => {
+      setPosts(response);
+    });
+  };
+  useEffect(postHook, []);
+
   const navigate = useNavigate();
+
+  const crumbs =[{ link: "/", name: "Home" }, { link: "/social", name: "Social" }];
+
   return (
     <>
       <StyledContainer>
-        <Typography variant="h3">Social</Typography>
+        <Container
+          style={{
+            flexDirection: "row",
+            display: "flex",
+            padding: 0,
+            justifyContent: "space-between",
+          }}
+        >
+          <Breadcrumbs crumbs={crumbs}/>
+          <NewPostModal login={login} />
+        </Container>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Post</TableCell>
@@ -45,8 +68,10 @@ const Social = ({ posts }) => {
                     }}
                   >
                     <TableCell component="th" scope="row">
-                      <Typography variant="h5">{post.title}</Typography>
-                      <Typography variant="subtitle1">{post.author_id}</Typography>
+                      <Typography>{post.title}</Typography>
+                      <Typography variant="subtitle1">
+                        {post.author_id}
+                      </Typography>
                     </TableCell>
 
                     <TableCell align="right">

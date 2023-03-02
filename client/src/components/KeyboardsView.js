@@ -6,13 +6,14 @@ import KeyboardCard from "./KeyboardCard";
 import KeyboardForm from "./KeyboardForm";
 import StyledContainer from "./StyledContainer";
 
-const KeyboardsView = ({ keyboards, handlePost, handleDelete }) => {
+const KeyboardsView = ({ keyboards, handlePost, handleDelete, login }) => {
+  console.log(login);
   return (
     <StyledContainer>
       <Grid container spacing={0.5}>
         {keyboards.map((keyboard) => {
           return (
-            <Grid item xs={12} sm={6} md={4} lg={2} key={keyboard.id}>
+            <Grid item xs={12} sm={6} md={4} lg={4} key={keyboard.id}>
               <KeyboardCard
                 item
                 key={keyboard.id}
@@ -22,9 +23,11 @@ const KeyboardsView = ({ keyboards, handlePost, handleDelete }) => {
             </Grid>
           );
         })}
-        <Grid item xs={12} sm={6} md={4} lg={2}>
-          <KeyboardForm handlePost={handlePost} />
-        </Grid>
+        {login.access_token && (
+          <Grid item xs={12} sm={6} md={4} lg={2}>
+            <KeyboardForm handlePost={handlePost} />
+          </Grid>
+        )}
       </Grid>
     </StyledContainer>
   );
