@@ -7,6 +7,7 @@ import About from "./About";
 import KeyboardsView from "./KeyboardsView";
 import LoginForm from "./LoginForm";
 import { PostView } from "./Post";
+import SignUpForm from "./SignUpForm";
 import Social from "./Social";
 
 const MainView = ({ keyboards, posts, handlePost, handleDelete, login }) => {
@@ -28,6 +29,7 @@ const MainView = ({ keyboards, posts, handlePost, handleDelete, login }) => {
       <Route path="/social/:id" element={<PostView login={login}/>} />
       <Route path="/about" element={<About />} />
       <Route path="/login" element={<LoginForm />} />
+      <Route path="/signup" element={<SignUpForm />} />
     </Routes>
     // </Paper>
   );

@@ -48,7 +48,7 @@ class User(Base):
     username = Column(String(24), unique=True)
     email = Column(String(320))
     password_hash = Column(String(64))
-    disabled = Column(Boolean)
+    disabled = Column(Boolean, default=False)
     keyboards = relationship("Keyboard", lazy='subquery')
     posts = relationship("Post", lazy='subquery')
     comments = relationship("Comment", lazy='subquery')

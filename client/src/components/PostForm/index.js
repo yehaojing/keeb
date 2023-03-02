@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import postService from "../../services/posts";
-import StyledButton from "../StyledButton";
+import { StyledFilledButton } from "../StyledButton";
 
 const NewPostModal = ({ login }) => {
   const navigate = useNavigate();
@@ -35,9 +35,9 @@ const NewPostModal = ({ login }) => {
   return (
     <>
       {login.access_token && (
-        <StyledButton variant="contained" onClick={handleOpen}>
+        <StyledFilledButton variant="contained" onClick={handleOpen}>
           New Post
-        </StyledButton>
+        </StyledFilledButton>
       )}
       <Dialog open={openState} onClose={handleClose}>
         <DialogTitle>New Post</DialogTitle>
@@ -69,10 +69,10 @@ const NewPostModal = ({ login }) => {
               }}
             />
             <DialogActions>
-              <StyledButton onClick={handleClose}>Cancel</StyledButton>
-              <StyledButton variant="outlined" type="submit" autoFocus>
+              <StyledFilledButton onClick={handleClose}>Cancel</StyledFilledButton>
+              <StyledFilledButton variant="outlined" type="submit" autoFocus>
                 Submit
-              </StyledButton>
+              </StyledFilledButton>
             </DialogActions>
           </form>
         </DialogContent>

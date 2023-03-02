@@ -1,4 +1,4 @@
-import { Button, Card, CardContent } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import * as React from "react";
 import { useState } from "react";
 
-import StyledButton from "./StyledButton";
+import { StyledFilledButton } from "./StyledButton";
 // import useStyles from "./style";
 
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -43,9 +43,9 @@ const KeyboardForm = ({ handlePost }) => {
   return (
     <StyledCard>
       <CardContent sx={{ display: "flex", justifyContent: "center" }}>
-        <StyledButton onClick={handlePostModalOpen}>
+        <StyledFilledButton onClick={handlePostModalOpen}>
           Add Keyboard
-        </StyledButton>
+        </StyledFilledButton>
       </CardContent>
       <NewKeyboardModal
         form={form}
@@ -125,10 +125,10 @@ const NewKeyboardModal = ({
               }
             />
             <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button variant="outlined" type="submit" autoFocus>
+              <StyledFilledButton onClick={handleClose}>Cancel</StyledFilledButton>
+              <StyledFilledButton variant="outlined" type="submit" autoFocus>
                 Submit
-              </Button>
+              </StyledFilledButton>
             </DialogActions>
           </form>
         </DialogContent>

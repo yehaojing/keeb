@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-const StyledButton = styled(Button)(({ theme }) => ({
+export const StyledFilledButton = styled(Button)(({ theme }) => ({
   textTransform: "none",
   color: "white",
   marginBottom: theme.spacing(1),
@@ -11,4 +11,13 @@ const StyledButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export default StyledButton;
+export const StyledOutlinedButton = styled(Button)(({ theme }) => ({
+  textTransform: "none",
+  color: "#888FC7",
+  border: "1px solid #888FC7",
+  marginBottom: theme.spacing(1),
+  "&:hover": {
+    color: "white",
+    backgroundColor: "#888FC7",
+  },
+}));

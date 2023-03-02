@@ -46,7 +46,7 @@ const Social = ({ login }) => {
           <NewPostModal login={login} />
         </Container>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Post</TableCell>
@@ -68,7 +68,7 @@ const Social = ({ login }) => {
                     }}
                   >
                     <TableCell component="th" scope="row">
-                      <Typography variant="h5">{post.title}</Typography>
+                      <Typography>{post.title}</Typography>
                       <Typography variant="subtitle1">
                         {post.author_id}
                       </Typography>

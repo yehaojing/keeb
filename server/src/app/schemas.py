@@ -60,20 +60,23 @@ class PostPatch(PostBase):
 
 
 # User
-class User(BaseModel):
+class UserBase(BaseModel):
     username: str
     email: str | None = None
     full_name: str | None = None
+
+
+class UserCreate(UserBase):
+    password: str
+
+
+class User(UserBase):
     disabled: bool | None = False
     created_on: datetime
     updated_on: datetime
 
     class Config:
         orm_mode = True
-
-
-class UserCreate(User):
-    password: str
 
 
 class Keyboard(KeyboardBase):

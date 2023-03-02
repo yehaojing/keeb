@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import userService from "../../services/user";
-import StyledButton from "../StyledButton";
+import { StyledFilledButton, StyledOutlinedButton } from "../StyledButton";
 import StyledContainer from "../StyledContainer";
 
 const LoginForm = () => {
@@ -36,7 +36,7 @@ const LoginForm = () => {
         <Card style={{ padding: "5%" }}>
           <h1>Login</h1>
           <form onSubmit={loginHandler}>
-            <div style={{ paddingBottom: "5%" }} >
+            <div style={{ paddingBottom: "5%" }}>
               <TextField
                 type="text"
                 label="Username"
@@ -45,7 +45,7 @@ const LoginForm = () => {
                 onChange={({ target }) => setUsername(target.value)}
               />
             </div>
-            <div style={{ paddingBottom: "5%" }} >
+            <div style={{ paddingBottom: "5%" }}>
               <TextField
                 type="password"
                 label="Password"
@@ -54,9 +54,18 @@ const LoginForm = () => {
                 onChange={({ target }) => setPassword(target.value)}
               />
             </div>
-            <StyledButton type="submit">
-              Login
-            </StyledButton>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "row",
+              }}
+            >
+              <StyledFilledButton type="submit">Login</StyledFilledButton>
+              <StyledOutlinedButton style={{ alignItem: "flex-end" }} onClick={() => navigate("/signup")}>
+                Sign Up
+              </StyledOutlinedButton>
+            </div>
           </form>
         </Card>
       </Box>

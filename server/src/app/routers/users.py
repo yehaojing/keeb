@@ -33,8 +33,7 @@ def create_new_user(
         full_name=user.full_name,
         username=user.username,
         email=user.email,
-        password_hash=hash_password(user.password),
-        disabled=user.disabled
+        password_hash=hash_password(user.password)
     )
 
     session.add(user_db)

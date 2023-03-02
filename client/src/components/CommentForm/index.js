@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import commentService from "../../services/comments";
-import StyledButton from "../StyledButton";
+import { StyledFilledButton } from "../StyledButton";
 
 const CommentForm = ({ postId }) => {
   const [form, setForm] = useState({ content: "" });
@@ -30,7 +30,7 @@ const CommentForm = ({ postId }) => {
             setForm({ ...form, content: event.target.value });
           }}
         />
-        <StyledButton style={{ marginLeft: "auto" }} onClick={handleSubmit}>Create Comment</StyledButton>
+        <StyledFilledButton style={{ marginLeft: "auto" }} onClick={handleSubmit}>Create Comment</StyledFilledButton>
       </Container>
     </>
   );
