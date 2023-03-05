@@ -13,14 +13,16 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import postService from "../services/posts";
-import Breadcrumbs from "./Breadcrumbs";
 import NewPostModal from "./PostForm";
-import StyledContainer from "./StyledContainer";
 
-const Social = ({ login }) => {
+const Social = ({ login, setCrumbs }) => {
   const [posts, setPosts] = useState([]);
 
   const postHook = () => {
+    setCrumbs([
+      { link: "/", name: "Home" },
+      { link: "/social", name: "Social" },
+    ]);
     postService.getAll().then((response) => {
       setPosts(response);
     });
@@ -29,61 +31,56 @@ const Social = ({ login }) => {
 
   const navigate = useNavigate();
 
-  const crumbs =[{ link: "/", name: "Home" }, { link: "/social", name: "Social" }];
-
   return (
     <>
-      <StyledContainer>
-        <Container
-          style={{
-            flexDirection: "row",
-            display: "flex",
-            padding: 0,
-            justifyContent: "space-between",
-          }}
-        >
-          <Breadcrumbs crumbs={crumbs}/>
-          <NewPostModal login={login} />
-        </Container>
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Post</TableCell>
-                <TableCell align="right">Created On</TableCell>
-                <TableCell align="right">Comments</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {posts
-                .sort((a, b) => {
-                  return parseISO(b.created_on) - parseISO(a.created_on);
-                })
-                .map((post) => (
-                  <TableRow
-                    key={`${post.id}_${post.title}`}
-                    hover={true}
-                    onClick={() => {
-                      navigate(`/social/${post.id}`);
-                    }}
-                  >
-                    <TableCell component="th" scope="row">
-                      <Typography>{post.title}</Typography>
-                      <Typography variant="subtitle1">
-                        {post.author_id}
-                      </Typography>
-                    </TableCell>
+      <Container
+        style={{
+          flexDirection: "row",
+          display: "flex",
+          padding: 0,
+          justifyContent: "space-between",
+        }}
+      >
+        <NewPostModal login={login} />
+      </Container>
+      <TableContainer component={Paper}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Post</TableCell>
+              <TableCell align="right">Created On</TableCell>
+              <TableCell align="right">Comments</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {posts
+              .sort((a, b) => {
+                return parseISO(b.created_on) - parseISO(a.created_on);
+              })
+              .map((post) => (
+                <TableRow
+                  key={`${post.id}_${post.title}`}
+                  hover={true}
+                  onClick={() => {
+                    navigate(`/social/${post.id}`);
+                  }}
+                >
+                  <TableCell component="th" scope="row">
+                    <Typography>{post.title}</Typography>
+                    <Typography variant="subtitle1">
+                      {post.author_id}
+                    </Typography>
+                  </TableCell>
 
-                    <TableCell align="right">
-                      {formatRelative(parseISO(post.created_on), new Date())}
-                    </TableCell>
-                    <TableCell align="right">{post.comments.length}</TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </StyledContainer>
+                  <TableCell align="right">
+                    {formatRelative(parseISO(post.created_on), new Date())}
+                  </TableCell>
+                  <TableCell align="right">{post.comments.length}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };

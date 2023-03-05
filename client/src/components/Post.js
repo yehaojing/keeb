@@ -11,14 +11,11 @@ import * as React from "react";
 import { useParams } from "react-router-dom";
 
 import postService from "../services/posts";
-import Breadcrumbs from "./Breadcrumbs";
 import CommentForm from "./CommentForm";
-import StyledContainer from "./StyledContainer";
 
-export const PostView = () => {
+export const PostView = ({ setCrumbs }) => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  const [crumbs, setCrumbs] = useState([]);
   const postHook = (id) => {
     return () => {
       postService.getPost(id).then((response) => {
@@ -35,23 +32,18 @@ export const PostView = () => {
 
   return (
     post && (
-      <StyledContainer>
-        <Breadcrumbs crumbs={crumbs} />
-        <List
-          sx={{
-            width: "100%",
-            bgcolor: "background.paper",
-          }}
-        >
-          <PostItem post={post}></PostItem>
-          {post.comments.map((comment) => {
-            return (
-              <CommentItem comment={comment} key={comment.id}></CommentItem>
-            );
-          })}
-          <CommentFormItem postId={id} />
-        </List>
-      </StyledContainer>
+      <List
+        sx={{
+          width: "100%",
+          bgcolor: "background.paper",
+        }}
+      >
+        <PostItem post={post}></PostItem>
+        {post.comments.map((comment) => {
+          return <CommentItem comment={comment} key={comment.id}></CommentItem>;
+        })}
+        <CommentFormItem postId={id} />
+      </List>
     )
   );
 };

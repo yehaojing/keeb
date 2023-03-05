@@ -4,9 +4,8 @@ import { Link as RouterLink } from "react-router-dom";
 const StyledBreadcrumbs = ({ crumbs }) => {
   const preCrumbs = crumbs.slice(0, -1);
   const currCrumb = crumbs.slice(-1)[0];
-
   return (
-    crumbs && (
+    currCrumb && (
       <Breadcrumbs>
         {preCrumbs.map((crumb) => {
           return (

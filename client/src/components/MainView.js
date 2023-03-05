@@ -1,37 +1,47 @@
 // import { Paper } from "@mui/material";
 import PropTypes from "prop-types";
 import React from "react";
-import { Route,Routes } from "react-router-dom";
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 
 import About from "./About";
+import Breadcrumbs from "./Breadcrumbs";
 import KeyboardsView from "./KeyboardsView";
 import LoginForm from "./LoginForm";
 import { PostView } from "./Post";
 import SignUpForm from "./SignUpForm";
 import Social from "./Social";
+import StyledContainer from "./StyledContainer";
 
-const MainView = ({ keyboards, posts, handlePost, handleDelete, login }) => {
+const MainView = ({ keyboards, handlePost, handleDelete, login }) => {
+  const [crumbs, setCrumbs] = useState([]);
+
   return (
-    // <Paper style={{ marginTop: 80 }}>
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <KeyboardsView
-            keyboards={keyboards}
-            handlePost={handlePost}
-            handleDelete={handleDelete}
-            login={login}
-          />
-        }
-      />
-      <Route path="/social" element={<Social posts={posts} login={login}/>} />
-      <Route path="/social/:id" element={<PostView login={login}/>} />
-      <Route path="/about" element={<About />} />
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/signup" element={<SignUpForm />} />
-    </Routes>
-    // </Paper>
+    <StyledContainer>
+      <Breadcrumbs crumbs={crumbs} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <KeyboardsView
+              keyboards={keyboards}
+              handlePost={handlePost}
+              handleDelete={handleDelete}
+              login={login}
+              setCrumbs={setCrumbs}
+            />
+          }
+        />
+        <Route
+          path="/social"
+          element={<Social login={login} setCrumbs={setCrumbs}/>}
+        />
+        <Route path="/social/:id" element={<PostView login={login} setCrumbs={setCrumbs}/>} />
+        <Route path="/about" element={<About />} />
+        <Route path="/login" element={<LoginForm setCrumbs={setCrumbs}/>} />
+        <Route path="/signup" element={<SignUpForm setCrumbs={setCrumbs}/>} />
+      </Routes>
+    </ StyledContainer>
   );
 };
 
@@ -40,7 +50,7 @@ MainView.propTypes = {
   posts: PropTypes.array,
   handlePost: PropTypes.func,
   handleDelete: PropTypes.func,
-  login: PropTypes.object
+  login: PropTypes.object,
 };
 
 export default MainView;

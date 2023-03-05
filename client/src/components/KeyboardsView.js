@@ -1,35 +1,39 @@
 import Grid from "@mui/material/Grid";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect } from "react";
 
 import KeyboardCard from "./KeyboardCard";
 import KeyboardForm from "./KeyboardForm";
-import StyledContainer from "./StyledContainer";
 
-const KeyboardsView = ({ keyboards, handlePost, handleDelete, login }) => {
-  console.log(login);
+const KeyboardsView = ({ keyboards, handlePost, handleDelete, login, setCrumbs }) => {
+  const keyboardHook = () => {
+    setCrumbs([
+      { link: "/", name: "Home" },
+      { link: "/", name: "Keyboards" },
+    ]);
+  };
+  useEffect(keyboardHook, []);
+
   return (
-    <StyledContainer>
-      <Grid container spacing={0.5}>
-        {keyboards.map((keyboard) => {
-          return (
-            <Grid item xs={12} sm={6} md={4} lg={4} key={keyboard.id}>
-              <KeyboardCard
-                item
-                key={keyboard.id}
-                keyboard={keyboard}
-                handleDelete={handleDelete(keyboard.id)}
-              />
-            </Grid>
-          );
-        })}
-        {login.access_token && (
-          <Grid item xs={12} sm={6} md={4} lg={2}>
-            <KeyboardForm handlePost={handlePost} />
+    <Grid container spacing={0.5}>
+      {keyboards.map((keyboard) => {
+        return (
+          <Grid item xs={12} sm={6} md={4} lg={4} key={keyboard.id}>
+            <KeyboardCard
+              item
+              key={keyboard.id}
+              keyboard={keyboard}
+              handleDelete={handleDelete(keyboard.id)}
+            />
           </Grid>
-        )}
-      </Grid>
-    </StyledContainer>
+        );
+      })}
+      {login.access_token && (
+        <Grid item xs={12} sm={6} md={4} lg={2}>
+          <KeyboardForm handlePost={handlePost} />
+        </Grid>
+      )}
+    </Grid>
   );
 };
 

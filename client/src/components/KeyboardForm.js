@@ -11,7 +11,6 @@ import * as React from "react";
 import { useState } from "react";
 
 import { StyledFilledButton } from "./StyledButton";
-// import useStyles from "./style";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -22,7 +21,6 @@ const StyledCard = styled(Card)(({ theme }) => ({
 }));
 
 const KeyboardForm = ({ handlePost }) => {
-  // const classes = useStyles();
   const [deleteModalOpen, setPostModalOpen] = useState(false);
   const [form, setForm] = useState({});
 
