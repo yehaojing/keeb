@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-# from typing import Optional
+from typing import Optional
 
 
 # Keybaord
@@ -117,3 +117,12 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: str | None = None
+
+
+class ImageBase(BaseModel):
+    id: str
+    image: Optional[str]
+
+
+class ImageRetrieve(ImageBase):
+    message: str

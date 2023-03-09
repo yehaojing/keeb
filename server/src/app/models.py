@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime, LargeBinary
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from src.app.database import Base
@@ -52,5 +52,13 @@ class User(Base):
     keyboards = relationship("Keyboard", lazy='subquery')
     posts = relationship("Post", lazy='subquery')
     comments = relationship("Comment", lazy='subquery')
+    created_on = Column(DateTime, default=func.now())
+    updated_on = Column(DateTime, default=func.now())
+
+
+class Image(Base):
+    __tablename__ = "images"
+    id = Column(Integer, primary_key=True)
+    image = Column(LargeBinary)
     created_on = Column(DateTime, default=func.now())
     updated_on = Column(DateTime, default=func.now())
