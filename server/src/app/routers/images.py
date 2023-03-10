@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, Depends
+from fastapi import APIRouter, UploadFile, Depends, HTTPException
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
 
@@ -12,10 +12,28 @@ router = APIRouter(
 )
 
 
-@router.post("/upload/")
-async def create_upload_file(
-    file: UploadFile,
+def find_image(
+    image_id: int,
     session: Session = Depends(get_session)
+):
+    image = session.query(models.Image).get(image_id)
+
+    if not image:
+        raise HTTPException(
+            status_code=404,
+            detail=f"image with id {image_id} not found"
+        )
+
+    return image
+
+
+@router.post(
+    "/",
+    response_model=schemas.ImageBase
+)
+async def upload_image(
+    file: UploadFile,
+    session: Session = Depends(get_session),
 ):
 
     image_db = models.Image(
@@ -26,11 +44,14 @@ async def create_upload_file(
     session.commit()
     session.refresh(image_db)
     session.close()
-    return {"filename": file.filename}
+
+    print(image_db)
+
+    return image_db
 
 
 @router.get(
-    "/retrieve/{image_id}",
+    "/{image_id}",
     response_model=schemas.ImageRetrieve,
     responses={
         200: {
@@ -39,15 +60,20 @@ async def create_upload_file(
         }
     }
 )
-async def retrieve_file(
-    image_id: int,
-    session: Session = Depends(get_session),
+async def get_image(
+    image: models.Image = Depends(find_image),
 ):
+    return Response(content=image.image, media_type="image/png")
 
-    image = session.query(models.Image).get(image_id)
 
-    if image:
-        return Response(content=image.image, media_type="image/png")
-    else:
-        return {"id": image_id,
-                "message": f"Image with id '{image_id}' not found."}
+@router.delete(
+    "/{image_id}"
+)
+def delete_image(
+    session: Session = Depends(get_session),
+    image=Depends(find_image),
+):
+    session.delete(image)
+    session.commit()
+
+    return {"detail": f"image with id {image.id} deleted"}

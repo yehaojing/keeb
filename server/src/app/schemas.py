@@ -121,8 +121,11 @@ class TokenData(BaseModel):
 
 class ImageBase(BaseModel):
     id: str
-    image: Optional[str]
+
+    class Config:
+        orm_mode = True
 
 
 class ImageRetrieve(ImageBase):
+    image: Optional[str]
     message: str
