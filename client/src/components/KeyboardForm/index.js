@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@mui/material";
+import { Card, CardContent, Input } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -10,7 +10,9 @@ import PropTypes from "prop-types";
 import * as React from "react";
 import { useState } from "react";
 
-import { StyledFilledButton } from "./StyledButton";
+import imagesService from "../../services/images";
+import { StyledFilledButton } from "../StyledButton";
+
 
 const StyledCard = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -63,6 +65,14 @@ const NewKeyboardModal = ({
   handleClose,
   handlePostClose,
 }) => {
+
+  const [images, setImages] = useState({});
+
+  const handleAddImage = async (event) => {
+    setImages(event.target.files[0]);
+    const resp = await imagesService.postImage(images);
+  };
+
   return (
     <div>
       <Dialog open={openState} onClose={handleClose}>
@@ -122,6 +132,7 @@ const NewKeyboardModal = ({
                 setForm({ ...form, keycaps: event.target.value })
               }
             />
+            <Input inputProps={{ "accept": ".png, .jpeg, .jpg" }} type="file" onChange={(event) => handleAddImage(event)}></Input>
             <DialogActions>
               <StyledFilledButton onClick={handleClose}>Cancel</StyledFilledButton>
               <StyledFilledButton variant="outlined" type="submit" autoFocus>
