@@ -13,7 +13,7 @@ import SignUpForm from "./SignUpForm";
 import Social from "./Social";
 import StyledContainer from "./StyledContainer";
 
-const MainView = ({ keyboards, handlePost, handleDelete, login }) => {
+const MainView = ({ login }) => {
   const [crumbs, setCrumbs] = useState([]);
 
   return (
@@ -24,9 +24,6 @@ const MainView = ({ keyboards, handlePost, handleDelete, login }) => {
           path="/"
           element={
             <KeyboardsView
-              keyboards={keyboards}
-              handlePost={handlePost}
-              handleDelete={handleDelete}
               login={login}
               setCrumbs={setCrumbs}
             />

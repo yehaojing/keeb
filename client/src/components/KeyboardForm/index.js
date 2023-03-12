@@ -9,10 +9,11 @@ import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
 import * as React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import imagesService from "../../services/images";
+import keyboardService from "../../services/keyboard";
 import { StyledFilledButton } from "../StyledButton";
-
 
 const StyledCard = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -22,55 +23,39 @@ const StyledCard = styled(Card)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const KeyboardForm = ({ handlePost }) => {
-  const [deleteModalOpen, setPostModalOpen] = useState(false);
-  const [form, setForm] = useState({});
-
-  const handlePostModalOpen = () => {
-    setPostModalOpen(true);
-  };
-
-  const handleClose = () => {
-    setPostModalOpen(false);
-  };
-
-  const handlePostClose = (event) => {
-    event.preventDefault();
-    setPostModalOpen(false);
-    handlePost(form);
-  };
+const KeyboardForm = () => {
+  const [modal, setModal] = useState(false);
 
   return (
     <StyledCard>
       <CardContent sx={{ display: "flex", justifyContent: "center" }}>
-        <StyledFilledButton onClick={handlePostModalOpen}>
+        <StyledFilledButton onClick={() => setModal(true)}>
           Add Keyboard
         </StyledFilledButton>
       </CardContent>
-      <NewKeyboardModal
-        form={form}
-        setForm={setForm}
-        openState={deleteModalOpen}
-        handleClose={handleClose}
-        handlePostClose={handlePostClose}
-      />
+      <NewKeyboardModal openState={modal} handleClose={() => setModal(false)} />
     </StyledCard>
   );
 };
 
-const NewKeyboardModal = ({
-  form,
-  setForm,
-  openState,
-  handleClose,
-  handlePostClose,
-}) => {
-
-  const [images, setImages] = useState({});
+const NewKeyboardModal = ({ openState, handleClose }) => {
+  const [images, setImages] = useState();
+  const [form, setForm] = useState({});
+  const navigate = useNavigate();
+  console.log(navigate);
 
   const handleAddImage = async (event) => {
     setImages(event.target.files[0]);
-    const resp = await imagesService.postImage(images);
+  };
+
+  const handlePost = async (event) => {
+    event.preventDefault();
+    if (images) {
+      await imagesService.postImage(images);
+    }
+    await keyboardService.postNewKeyboard(form);
+    navigate(0);
+    handleClose();
   };
 
   return (
@@ -81,7 +66,7 @@ const NewKeyboardModal = ({
           <DialogContentText id="alert-dialog-description">
             Fill out the details!
           </DialogContentText>
-          <form onSubmit={handlePostClose}>
+          <form onSubmit={(e) => handlePost(e)}>
             <TextField
               autoFocus
               margin="dense"
@@ -132,9 +117,15 @@ const NewKeyboardModal = ({
                 setForm({ ...form, keycaps: event.target.value })
               }
             />
-            <Input inputProps={{ "accept": ".png, .jpeg, .jpg" }} type="file" onChange={(event) => handleAddImage(event)}></Input>
+            <Input
+              inputProps={{ accept: ".png, .jpeg, .jpg" }}
+              type="file"
+              onChange={(event) => handleAddImage(event)}
+            ></Input>
             <DialogActions>
-              <StyledFilledButton onClick={handleClose}>Cancel</StyledFilledButton>
+              <StyledFilledButton onClick={handleClose}>
+                Cancel
+              </StyledFilledButton>
               <StyledFilledButton variant="outlined" type="submit" autoFocus>
                 Submit
               </StyledFilledButton>

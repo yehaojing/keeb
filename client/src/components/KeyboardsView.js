@@ -1,12 +1,18 @@
 import Grid from "@mui/material/Grid";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
+import keyboardService from "../services/keyboard";
 import KeyboardCard from "./KeyboardCard";
 import KeyboardForm from "./KeyboardForm";
 
-const KeyboardsView = ({ keyboards, handlePost, handleDelete, login, setCrumbs }) => {
+const KeyboardsView = ({ login, setCrumbs }) => {
+  const [keyboards, setKeyboards] = useState([]);
+
   const keyboardHook = () => {
+    keyboardService.getAll().then((response) => {
+      setKeyboards(response);
+    });
     setCrumbs([
       { link: "/", name: "Home" },
       { link: "/", name: "Keyboards" },
@@ -23,14 +29,13 @@ const KeyboardsView = ({ keyboards, handlePost, handleDelete, login, setCrumbs }
               item
               key={keyboard.id}
               keyboard={keyboard}
-              handleDelete={handleDelete(keyboard.id)}
             />
           </Grid>
         );
       })}
       {login.access_token && (
         <Grid item xs={12} sm={6} md={4} lg={2}>
-          <KeyboardForm handlePost={handlePost} />
+          <KeyboardForm />
         </Grid>
       )}
     </Grid>
