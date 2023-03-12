@@ -129,3 +129,7 @@ class ImageBase(BaseModel):
 class ImageRetrieve(ImageBase):
     image: Optional[str]
     message: str
+
+
+class KeyboardImage(Keyboard):
+    images: Optional[list[ImageBase]]

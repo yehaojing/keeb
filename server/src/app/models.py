@@ -1,4 +1,6 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime, LargeBinary
+from sqlalchemy import (
+    Column, Integer, String, Boolean, ForeignKey, DateTime, LargeBinary
+)
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from src.app.database import Base
@@ -13,6 +15,7 @@ class Keyboard(Base):
     keycaps = Column(String(50))
     manufacturer = Column(String(50))
     owner_id = Column(Integer, ForeignKey("users.id"))
+    images = relationship("Image", lazy='subquery')
     owner = relationship("User", lazy='subquery')
 
 
@@ -62,3 +65,5 @@ class Image(Base):
     image = Column(LargeBinary)
     created_on = Column(DateTime, default=func.now())
     updated_on = Column(DateTime, default=func.now())
+    owner_id = Column(Integer, ForeignKey("users.id"))
+    keyboard_id = Column(Integer, ForeignKey("keyboards.id"))

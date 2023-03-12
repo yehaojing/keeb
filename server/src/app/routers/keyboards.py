@@ -115,7 +115,7 @@ def delete_keyboard(
 
 @router.get(
     "/",
-    response_model=List[schemas.Keyboard]
+    response_model=List[schemas.KeyboardImage]
 )
 def read_keyboard_list(
     session: Session = Depends(get_session)

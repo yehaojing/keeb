@@ -42,7 +42,6 @@ const NewKeyboardModal = ({ openState, handleClose }) => {
   const [images, setImages] = useState();
   const [form, setForm] = useState({});
   const navigate = useNavigate();
-  console.log(navigate);
 
   const handleAddImage = async (event) => {
     setImages(event.target.files[0]);
@@ -50,10 +49,12 @@ const NewKeyboardModal = ({ openState, handleClose }) => {
 
   const handlePost = async (event) => {
     event.preventDefault();
+    const keyboardResp = await keyboardService.postNewKeyboard(form);
+    const keyboardId = keyboardResp.id;
     if (images) {
-      await imagesService.postImage(images);
+      await imagesService.postImage(images, keyboardId);
     }
-    await keyboardService.postNewKeyboard(form);
+
     navigate(0);
     handleClose();
   };

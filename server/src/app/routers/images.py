@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 import src.app.models as models
 import src.app.schemas as schemas
-from src.app.dependencies import get_session
+from src.app.dependencies import get_session, get_current_active_user
 
 
 router = APIRouter(
@@ -28,16 +28,20 @@ def find_image(
 
 
 @router.post(
-    "/",
+    "/{keyboard_id}",
     response_model=schemas.ImageBase
 )
 async def upload_image(
     file: UploadFile,
+    keyboard_id: int,
     session: Session = Depends(get_session),
+    current_user: schemas.UserInDB = Depends(get_current_active_user)
 ):
 
     image_db = models.Image(
-        image=await file.read()
+        image=await file.read(),
+        owner_id=current_user.id,
+        keyboard_id=keyboard_id
     )
 
     session.add(image_db)

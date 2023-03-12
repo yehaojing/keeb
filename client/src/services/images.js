@@ -2,8 +2,8 @@ import axios from "../utils/apiClient";
 
 const baseUrl = "/images";
 
-const postImage = (images) => {
-  const request = axios.post(baseUrl, { file: images }, {
+const postImage = (images, keyboardId) => {
+  const request = axios.post(`${baseUrl}/${keyboardId}`, { file: images }, {
     headers: {
       "accept": "application/json",
       "Accept-Language": "en-US,en;q=0.8",

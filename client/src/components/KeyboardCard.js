@@ -77,9 +77,9 @@ const KeyboardCard = ({ keyboard, handleDelete }) => {
       />
       <CardMedia
         component="img"
-        alt="Norbauer Heavy Grail"
+        alt={`${keyboard.name}`}
         height="140"
-        image="https://images.squarespace-cdn.com/content/v1/4f31dc46cb127c78280cc974/1631080589725-U6TWH5F30U6BFWZLE50P/Norbauer+Heavy+Grail.jpg?format=1000w"
+        image={`/api/images/${keyboard.images[0]?.id}`}
       />
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent
